@@ -1,0 +1,80 @@
+{
+	"baseName": "maestro",
+	"packageName": "com.yammer.maestro",
+	"entities": [
+		{
+			"name": "orchestration",
+			"attrs": [
+				{
+					"attrName": "name",
+					"attrType": "String",
+					"minLength": "",
+					"maxLength": "",
+					"enumValues": [],
+					"required": true
+				},
+				{
+					"attrName": "configuration",
+					"attrType": "String",
+					"minLength": "",
+					"maxLength": "",
+					"enumValues": [],
+					"required": true
+				},
+				{
+					"attrName": "state",
+					"attrType": "Enum",
+					"enumValues": [
+						"initialized",
+						"started",
+						"stopped",
+						"disposed"
+					],
+					"required": true
+				},
+				{
+					"attrName": "type",
+					"attrType": "Enum",
+					"enumValues": [
+						"json",
+						"complex"
+					],
+					"required": true
+				},
+				{
+					"attrName": "created",
+					"attrType": "Date",
+					"dateConstraint": "",
+					"enumValues": [],
+					"required": true
+				},
+				{
+					"attrName": "lastModified",
+					"attrType": "Date",
+					"dateConstraint": "",
+					"enumValues": [],
+					"required": true
+				}
+			]
+		}
+	],
+	"resources": [
+		{
+			"name": "test",
+			"methods": [
+				{
+					"methodName": "test1",
+					"methodType": "GET",
+					"methodPath": "test1",
+					"formParams": []
+				},
+				{
+					"methodName": "test2",
+					"methodType": "GET",
+					"methodPath": "test2",
+					"formParams": []
+				}
+			]
+		}
+	]
+}

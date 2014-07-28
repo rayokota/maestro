@@ -1,0 +1,21 @@
+{
+  "name": "maestro",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular-bootstrap": "~0.11.0",
+    "angular-resource": "~1.2.21",
+    "angular-route": "~1.2.21",
+    "angular-ui-date": "~0.0.3",
+    "angular": "~1.2.21",
+    "bootstrap-css": "~3.2.0",
+    "jquery": "~2.1.0",
+    "lodash": "~2.4.1",
+    "angular-bootstrap-nav-tree": "*",
+    "ace": "~1.1.4",
+    "angular-ui-ace": "bower"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.2.21",
+    "angular-scenario": "~1.2.21"
+  }
+}

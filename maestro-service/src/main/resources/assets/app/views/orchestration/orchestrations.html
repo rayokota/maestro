@@ -1,0 +1,355 @@
+
+
+
+<div>
+
+    <h2>Orchestrations</h2>
+
+    <script type="text/ng-template" id="orchestration-save.html">
+        <form name="form" role="form" novalidate
+              class="ng-scope ng-invalid ng-invalid-required ng-dirty"
+              ng-submit="ok()">
+
+            <div class="modal-header">
+                <button type="button" class="close"
+                        ng-click="cancel()">&times;</button>
+                <h4 class="modal-title" id="myOrchestrationLabel">Create or Edit an Orchestration</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Name:</label>
+
+                    <input type="text" class="form-control" name="name"
+                           ng-model="orchestration.name" ng-required="true"
+                            />
+                </div>
+
+                <div class="form-group">
+                    <label>Context Path:</label>
+
+                    <input type="text" class="form-control" name="contextPath"
+                           ng-model="orchestration.contextPath" ng-required="true"
+                            />
+                </div>
+
+                <div class="form-group">
+                    <label>Relative Path Template:</label>
+
+                    <input type="text" class="form-control" name="relativePathTemplate"
+                           ng-model="orchestration.relativePathTemplate" ng-required="true"
+                            />
+                </div>
+
+                <div class="form-group">
+                    <label>Method:</label>
+
+                    <label class="radio-inline"><input type="radio" name="method" value="GET" checked="checked"
+                                                ng-model="orchestration.method" ng-required="true"/> GET </label>
+                    <label class="radio-inline"><input type="radio" name="method" value="POST"
+                                                ng-model="orchestration.method" ng-required="true"/> POST </label>
+                    <label class="radio-inline"><input type="radio" name="method" value="PUT"
+                                                ng-model="orchestration.method" ng-required="true"/> PUT </label>
+                    <label class="radio-inline"><input type="radio" name="method" value="DELETE"
+                                                ng-model="orchestration.method" ng-required="true"/> DELETE </label>
+                    <label class="radio-inline"><input type="radio" name="method" value="HEAD"
+                                                ng-model="orchestration.method" ng-required="true"/> HEAD </label>
+                    <label class="radio-inline"><input type="radio" name="method" value="OPTIONS"
+                                                ng-model="orchestration.method" ng-required="true"/> OPTIONS </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="cancel()">Cancel
+                </button>
+                <button type="submit" ng-disabled="form.$invalid" class="btn btn-success">Save</button>
+            </div>
+        </form>
+    </script>
+
+    <script type="text/ng-template" id="outbound-endpoint-save.html">
+        <form name="form" role="form" novalidate
+              class="ng-scope ng-invalid ng-invalid-required ng-dirty"
+              ng-submit="ok()">
+
+            <div class="modal-header">
+                <button type="button" class="close"
+                        ng-click="cancel()">&times;</button>
+                <h4 class="modal-title" id="myOutboundEndpointLabel">Create or Edit an Input</h4>
+                <div class="form-group">
+                    <label>Type:</label>
+
+                    <label class="radio-inline"><input type="radio" name="type" value="HTTP" checked="checked"
+                                                       ng-model="outboundEndpoint.type" ng-required="true"/> HTTP </label>
+                    <label class="radio-inline"><input type="radio" name="type" value="RDBMS"
+                                                       ng-model="outboundEndpoint.type" ng-required="true"/> RDBMS </label>
+                </div>
+            </div>
+            <div class="modal-body" collapse="outboundEndpoint.type != 'HTTP'">
+                <div class="form-group">
+                    <label>Name:</label>
+
+                    <input type="text" class="form-control" name="name"
+                           ng-model="outboundEndpoint.name" ng-required="true"
+                            />
+                </div>
+
+                <div class="form-group">
+                    <label>Variable Name:</label>
+
+                    <input type="text" class="form-control" name="variableName"
+                           ng-model="outboundEndpoint.variableName" ng-required="true"
+                            />
+                </div>
+
+                <div class="form-group">
+                    <label>Host:</label>
+
+                    <input type="text" class="form-control" name="host"
+                           ng-model="outboundEndpoint.host"
+                            />
+                </div>
+
+                <div class="form-group">
+                    <label>Port:</label>
+
+                    <input type="number" class="form-control" name="port"
+                           ng-model="outboundEndpoint.port"
+                            />
+                </div>
+
+                <div class="form-group">
+                    <label>Path:</label>
+
+                    <input type="text" class="form-control" name="path"
+                           ng-model="outboundEndpoint.path"
+                            />
+                </div>
+
+                <div class="form-group">
+                    <label>Method:</label>
+
+                    <label class="radio-inline"><input type="radio" name="method" value="GET" checked="checked"
+                                                       ng-model="outboundEndpoint.method" /> GET </label>
+                    <label class="radio-inline"><input type="radio" name="method" value="POST"
+                                                       ng-model="outboundEndpoint.method" /> POST </label>
+                    <label class="radio-inline"><input type="radio" name="method" value="PUT"
+                                                       ng-model="outboundEndpoint.method" /> PUT </label>
+                    <label class="radio-inline"><input type="radio" name="method" value="DELETE"
+                                                       ng-model="outboundEndpoint.method" /> DELETE </label>
+                    <label class="radio-inline"><input type="radio" name="method" value="HEAD"
+                                                       ng-model="outboundEndpoint.method" /> HEAD </label>
+                    <label class="radio-inline"><input type="radio" name="method" value="OPTIONS"
+                                                       ng-model="outboundEndpoint.method" /> OPTIONS </label>
+                </div>
+                <div class="form-group">
+                    <label>Headers:</label>
+                    <div class="headers-editor form-control" ui-ace="headersOption" ng-model="outboundEndpoint.outboundProperties"/>
+                </div>
+                <div class="form-group" collapse="outboundEndpoint.method == 'GET' || outboundEndpoint.method == 'HEAD'">
+                    <label>Payload:</label>
+                    <div class="payload-editor form-control" ui-ace="payloadOption" ng-model="outboundEndpoint.script"/>
+                </div>
+                <div class="form-group" collapse="outboundEndpoint.method == 'GET' || outboundEndpoint.method == 'HEAD'">
+                    Mode:
+                    <select ng-model="outboundEndpoint.scriptType" ng-options="m for m in modes" ng-change="payloadModeChanged()"></select>
+                </div>
+            </div>
+            <div class="modal-body" collapse="outboundEndpoint.type != 'RDBMS'">
+                <div class="form-group">
+                    <label>Name:</label>
+
+                    <input type="text" class="form-control" name="name"
+                           ng-model="outboundEndpoint.name" ng-required="true"
+                            />
+                </div>
+
+                <div class="form-group">
+                    <label>Variable Name:</label>
+
+                    <input type="text" class="form-control" name="variableName"
+                           ng-model="outboundEndpoint.variableName" ng-required="true"
+                            />
+                </div>
+
+                <div class="form-group">
+                    <label>JDBC URL:</label>
+
+                    <input type="text" class="form-control" name="url"
+                           ng-model="outboundEndpoint.url"
+                            />
+                </div>
+
+                <div class="form-group">
+                    <label>Driver Class:</label>
+
+                    <input type="text" class="form-control" name="driverClassName"
+                           ng-model="outboundEndpoint.driverClassName"
+                            />
+                </div>
+
+                <div class="form-group">
+                    <label>Query:</label>
+
+                    <input type="textarea" class="form-control" name="query"
+                           ng-model="outboundEndpoint.query"
+                            />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="cancel()">Cancel
+                </button>
+                <button type="submit" ng-disabled="form.$invalid" class="btn btn-success">Save</button>
+            </div>
+        </form>
+    </script>
+
+
+    <button class="btn btn-primary btn-lg" ng-click="create()" ng-disabled="mode != 'orchestrations' && mode != 'outboundEndpoints'">
+        <span class="glyphicon glyphicon-flash"></span> Create
+    </button>
+
+    <div>
+
+        <div style="float:left;width:400px;background:whitesmoke;border:1px solid lightgray;border-radius:5px;">
+            <abn-tree tree-data="my_data" tree-control="my_tree" on-select="my_tree_handler(branch)" expand-level="2"></abn-tree>
+        </div>
+
+        <div style="float:right;width:600px">
+
+            <div ng-show="mode == 'orchestration'">
+                <table class="table table-striped table-bordered">
+                    <tr>
+                        <th>ID:</th>
+                        <td>{{orchestration.id}}</td>
+                    </tr>
+                    <tr>
+                        <th>Name:</th>
+                        <td>{{orchestration.name}}</td>
+                    </tr>
+                    <tr>
+                        <th>State:</th>
+                        <td>{{orchestration.state}}</td>
+                    </tr>
+                    <tr>
+                        <th>Context Path:</th>
+                        <td>{{orchestration.contextPath}}</td>
+                    </tr>
+                    <tr>
+                        <th>Relative Path Template:</th>
+                        <td>{{orchestration.relativePathTemplate}}</td>
+                    </tr>
+                    <tr>
+                        <th>Method:</th>
+                        <td>{{orchestration.method}}</td>
+                    </tr>
+                    <tr>
+                        <th>Created:</th>
+                        <td>{{orchestration.created | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    </tr>
+                    <tr>
+                        <th>Last Modified:</th>
+                        <td>{{orchestration.lastModified | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    </tr>
+                </table>
+                <div class="footer">
+                    <div class="pull-right">
+                        <button class="btn"
+                                ng-class="{true: 'btn-success', false: 'btn-danger'}[orchestration.state != 'Started']"
+                                ng-click="deploy()">
+                            <span class="glyphicon"></span> {{orchestration.state == 'Started' && 'Stop' || 'Start'}}
+                        </button>
+                        <button class="btn btn-primary"
+                                ng-disabled="orchestration.state == 'Started'"
+                                ng-click="update()">
+                            <span class="glyphicon"></span> Edit
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="mode == 'outboundEndpoint'">
+                <table class="table table-striped table-bordered">
+                    <tr>
+                        <th>ID:</th>
+                        <td>{{outboundEndpoint.id}}</td>
+                    </tr>
+                    <tr>
+                        <th>Name:</th>
+                        <td>{{outboundEndpoint.name}}</td>
+                    </tr>
+                    <tr>
+                        <th>Type:</th>
+                        <td>{{outboundEndpoint.type}}</td>
+                    </tr>
+                    <tr>
+                        <th>Variable Name:</th>
+                        <td>{{outboundEndpoint.variableName}}</td>
+                    </tr>
+                    <tr ng-show="outboundEndpoint.type == 'HTTP'">
+                        <th>Host:</th>
+                        <td>{{outboundEndpoint.host}}</td>
+                    </tr>
+                    <tr ng-show="outboundEndpoint.type == 'HTTP'">
+                        <th>Port:</th>
+                        <td>{{outboundEndpoint.port}}</td>
+                    </tr>
+                    <tr ng-show="outboundEndpoint.type == 'HTTP'">
+                        <th>Path:</th>
+                        <td>{{outboundEndpoint.path}}</td>
+                    </tr>
+                    <tr ng-show="outboundEndpoint.type == 'HTTP'">
+                        <th>Method:</th>
+                        <td>{{outboundEndpoint.method}}</td>
+                    </tr>
+                    <tr ng-show="outboundEndpoint.type == 'HTTP'">
+                        <th>Headers:</th>
+                        <td>{{outboundEndpoint.outboundProperties}}</td>
+                    </tr>
+                    <tr ng-show="outboundEndpoint.type == 'HTTP' &amp;&amp; method != 'GET'">
+                        <th>Payload:</th>
+                        <td>{{outboundEndpoint.script}}</td>
+                    </tr>
+                    <tr ng-show="outboundEndpoint.type == 'RDBMS'">
+                        <th>JDBC URL:</th>
+                        <td>{{outboundEndpoint.url}}</td>
+                    </tr>
+                    <tr ng-show="outboundEndpoint.type == 'RDBMS'">
+                        <th>Driver Class:</th>
+                        <td>{{outboundEndpoint.driverClassName}}</td>
+                    </tr>
+                    <tr ng-show="outboundEndpoint.type == 'RDBMS'">
+                        <th>Query:</th>
+                        <td>{{outboundEndpoint.query}}</td>
+                    </tr>
+                    <tr>
+                        <th>Created:</th>
+                        <td>{{outboundEndpoint.created | date:'yyyy-MM-dd'}}</td>
+                    </tr>
+                    <tr>
+                        <th>Last Modified:</th>
+                        <td>{{outboundEndpoint.lastModified | date:'yyyy-MM-dd'}}</td>
+                    </tr>
+                </table>
+                <div class="footer">
+                    <button class="btn btn-primary pull-right"
+                            ng-disabled="orchestration.state == 'Started'"
+                            ng-click="update()">
+                        <span class="glyphicon"></span> Edit
+                    </button>
+                </div>
+            </div>
+
+            <div ng-show="mode == 'script'">
+                <div class="output-editor" ui-ace="outputOption" readonly="{{!editMode}}" ng-model='orchestration.script'/>
+                <div class="footer">
+                    Mode:
+                    <select ng-model="orchestration.scriptType" ng-options="m for m in modes" ng-change="outputModeChanged()"></select>
+                    <button class="btn pull-right"
+                            ng-disabled="orchestration.state == 'Started'"
+                            ng-class="{true: 'btn-primary', false: 'btn-success'}[!editMode]"
+                            ng-click="edit()">
+                        <span class="glyphicon"></span> {{editMode && 'Save' || 'Edit'}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
