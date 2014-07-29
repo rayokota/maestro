@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.core.MediaType;
 
 @Entity
 @Table(name = "rdbms_outbound_endpoints")

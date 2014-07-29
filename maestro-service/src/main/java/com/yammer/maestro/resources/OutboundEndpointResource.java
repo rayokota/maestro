@@ -2,6 +2,7 @@ package com.yammer.maestro.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Optional;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.sun.jersey.api.NotFoundException;
 import com.yammer.maestro.daos.OrchestrationDAO;
@@ -15,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.Set;
+import java.util.List;
 
 @Path("/outboundEndpoints")
 public class OutboundEndpointResource {
@@ -47,8 +48,8 @@ public class OutboundEndpointResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     @UnitOfWork
-    public Set<OutboundEndpoint> getAll() {
-        return Sets.newHashSet(dao.findAll());
+    public List<OutboundEndpoint> getAll() {
+        return Lists.newArrayList(Sets.newLinkedHashSet(dao.findAll()));
     }
 
     @GET

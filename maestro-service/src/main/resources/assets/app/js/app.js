@@ -1,5 +1,5 @@
 // Declare app level module which depends on filters, and services
-angular.module('maestro', ['ngResource', 'ngRoute', 'ui.bootstrap', 'ui.date', 'angularBootstrapNavTree', 'ui.ace'])
+angular.module('maestro', ['ngResource', 'ngRoute', 'ui.bootstrap', 'ui.date', 'ui.ace'])
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider
       .when('/', {

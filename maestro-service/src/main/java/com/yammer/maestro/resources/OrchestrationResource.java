@@ -2,6 +2,7 @@ package com.yammer.maestro.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Optional;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.sun.jersey.api.NotFoundException;
 import com.yammer.maestro.daos.OrchestrationDAO;
@@ -18,7 +19,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 @Path("/orchestrations")
 public class OrchestrationResource {
@@ -50,8 +51,8 @@ public class OrchestrationResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     @UnitOfWork
-    public Set<Orchestration> getAll() {
-        return Sets.newHashSet(dao.findAll());
+    public List<Orchestration> getAll() {
+        return Lists.newArrayList(Sets.newLinkedHashSet(dao.findAll()));
     }
 
     @GET

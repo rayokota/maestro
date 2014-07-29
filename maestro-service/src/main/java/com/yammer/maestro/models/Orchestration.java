@@ -2,7 +2,6 @@ package com.yammer.maestro.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Sets;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.NaturalId;
 import org.joda.time.LocalDateTime;
 

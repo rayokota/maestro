@@ -203,14 +203,30 @@
     </script>
 
 
-    <button class="btn btn-primary btn-lg" ng-click="create()" ng-disabled="mode != 'orchestrations' && mode != 'outboundEndpoints'">
-        <span class="glyphicon glyphicon-flash"></span> Create
+    <button class="btn btn-primary btn-lg" ng-click="createOrchestration()" ng-disabled="mode != 'orchestrations' && mode != 'outboundEndpoints'">
+        <span class="glyphicon glyphicon-flash"></span> Add Orchestration
     </button>
 
     <div>
 
         <div style="float:left;width:400px;background:whitesmoke;border:1px solid lightgray;border-radius:5px;">
-            <abn-tree tree-data="my_data" tree-control="my_tree" on-select="my_tree_handler(branch)" expand-level="2"></abn-tree>
+            <accordion>
+                <accordion-group ng-repeat="orch in orchestrations" >
+                    <accordion-heading>
+                    <span ng-click="orchestrationHandler(orch)">{{orch.name}}</span>
+                    </accordion-heading>
+                    <button class="btn btn-default btn-sm" ng-click="createOutboundEndpoint()">Add Input</button>
+                    <ul class="list-unstyled"
+                    <li>Inputs:</li>
+                    <ul>
+                    <li ng-repeat="endpoint in orch.outboundEndpoints">
+                        <a ng-click="outboundEndpointHandler(orch, endpoint)" href="">{{endpoint.name}}</a>
+                    </li>
+                    </ul>
+                    <li><a ng-click="scriptHandler(orch)" href="">Output</a></li>
+                    </ul>
+                </accordion-group>
+            </accordion>
         </div>
 
         <div style="float:right;width:600px">
@@ -259,7 +275,7 @@
                         </button>
                         <button class="btn btn-primary"
                                 ng-disabled="orchestration.state == 'Started'"
-                                ng-click="update()">
+                                ng-click="updateOrchestration()">
                             <span class="glyphicon"></span> Edit
                         </button>
                     </div>
@@ -331,7 +347,7 @@
                 <div class="footer">
                     <button class="btn btn-primary pull-right"
                             ng-disabled="orchestration.state == 'Started'"
-                            ng-click="update()">
+                            ng-click="updateOutboundEndpoint()">
                         <span class="glyphicon"></span> Edit
                     </button>
                 </div>
