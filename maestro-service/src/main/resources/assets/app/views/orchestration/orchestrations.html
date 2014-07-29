@@ -301,11 +301,11 @@
                     </tr>
                     <tr ng-show="outboundEndpoint.type == 'HTTP'">
                         <th>Headers:</th>
-                        <td>{{outboundEndpoint.outboundProperties}}</td>
+                        <td><pre>{{outboundEndpoint.outboundProperties}}</pre></td>
                     </tr>
                     <tr ng-show="outboundEndpoint.type == 'HTTP' &amp;&amp; method != 'GET'">
                         <th>Payload:</th>
-                        <td>{{outboundEndpoint.script}}</td>
+                        <td><pre>{{outboundEndpoint.script}}</pre></td>
                     </tr>
                     <tr ng-show="outboundEndpoint.type == 'RDBMS'">
                         <th>JDBC URL:</th>
@@ -341,7 +341,7 @@
                 <div class="output-editor" ui-ace="outputOption" readonly="{{!editMode}}" ng-model='orchestration.script'/>
                 <div class="footer">
                     Mode:
-                    <select ng-model="orchestration.scriptType" ng-options="m for m in modes" ng-change="outputModeChanged()"></select>
+                    <select ng-disabled="!editMode" ng-model="orchestration.scriptType" ng-options="m for m in modes" ng-change="outputModeChanged()"></select>
                     <button class="btn pull-right"
                             ng-disabled="orchestration.state == 'Started'"
                             ng-class="{true: 'btn-primary', false: 'btn-success'}[!editMode]"
