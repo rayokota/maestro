@@ -203,7 +203,7 @@
     </script>
 
 
-    <button class="btn btn-primary btn-lg" ng-click="createOrchestration()" ng-disabled="mode != 'orchestrations' && mode != 'outboundEndpoints'">
+    <button class="btn btn-primary btn-lg" ng-click="createOrchestration()">
         <span class="glyphicon glyphicon-flash"></span> Add Orchestration
     </button>
 
@@ -215,8 +215,8 @@
                     <accordion-heading>
                     <span ng-click="orchestrationHandler(orch)">{{orch.name}}</span>
                     </accordion-heading>
-                    <button class="btn btn-default btn-sm" ng-click="createOutboundEndpoint()">Add Input</button>
-                    <ul class="list-unstyled"
+                    <button class="btn btn-default btn-sm" ng-click="createOutboundEndpoint(orch)">Add Input</button>
+                    <ul class="list-unstyled">
                     <li>Inputs:</li>
                     <ul>
                     <li ng-repeat="endpoint in orch.outboundEndpoints">
@@ -275,7 +275,7 @@
                         </button>
                         <button class="btn btn-primary"
                                 ng-disabled="orchestration.state == 'Started'"
-                                ng-click="updateOrchestration()">
+                                ng-click="updateOrchestration(orchestration.id)">
                             <span class="glyphicon"></span> Edit
                         </button>
                     </div>
@@ -347,7 +347,7 @@
                 <div class="footer">
                     <button class="btn btn-primary pull-right"
                             ng-disabled="orchestration.state == 'Started'"
-                            ng-click="updateOutboundEndpoint()">
+                            ng-click="updateOutboundEndpoint(outboundEndpoint.id)">
                         <span class="glyphicon"></span> Edit
                     </button>
                 </div>

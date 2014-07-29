@@ -63,8 +63,7 @@ angular.module('maestro')
       $scope.deleteOrchestration = function (id) {
         Orchestration.delete({id: id},
           function () {
-            // TODO
-            //$scope.orchestrations = Orchestration.query();
+            $scope.orchestrations = Orchestration.query();
           });
       };
 
@@ -72,7 +71,6 @@ angular.module('maestro')
         OutboundEndpoint.delete({id: id},
           function () {
             // TODO
-            //$scope.orchestrations = Orchestration.query();
           });
       };
 
@@ -86,6 +84,7 @@ angular.module('maestro')
           Orchestration.save($scope.orchestration,
             function (data) {
               $scope.orchestration = data;
+              $scope.orchestrations = Orchestration.query();
             });
         }
       };
@@ -162,7 +161,7 @@ angular.module('maestro')
         });
 
         outboundEndpointSave.result.then(function (outboundEndpoint) {
-          outboundEndpoint.orchestrationId = $scope.parentId;
+          outboundEndpoint.orchestrationId = $scope.orchestration.id;
           $scope.outboundEndpoint = outboundEndpoint;
           $scope.saveOutboundEndpoint(id);
         });
@@ -178,14 +177,13 @@ angular.module('maestro')
 
       $scope.outboundEndpointHandler = function (orch, endpoint) {
         $scope.mode = 'outboundEndpoint';
-        $scope.parentId = orch.id;
         $scope.setOutboundEndpoint(endpoint);
       };
 
       $scope.scriptHandler = function (orch) {
         $scope.mode = 'script';
         $scope.editMode = false;
-        $scope.orchestration = Orchestration.get({id: orch.id});
+        $scope.orchestration = orch;
       };
 
       $scope.deploy = function () {

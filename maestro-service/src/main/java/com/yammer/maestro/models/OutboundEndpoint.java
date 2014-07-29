@@ -61,8 +61,7 @@ public class OutboundEndpoint {
     private Orchestration orchestration;
 
     @Transient
-    @JsonProperty
-    private long orchestrationId;
+    private long orchestrationId = 0;
 
     @Column(name = "created")
     private LocalDateTime created;
@@ -138,8 +137,9 @@ public class OutboundEndpoint {
         this.orchestration = orchestration;
     }
 
+    @JsonProperty
     public long getOrchestrationId() {
-        return orchestrationId;
+        return orchestrationId == 0 ? getOrchestration().getId() : orchestrationId;
     }
 
     public void setOrchestrationId(long orchestrationId) {
