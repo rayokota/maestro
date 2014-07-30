@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.common.collect.Maps;
 import org.hibernate.envers.Audited;
-import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,15 +23,7 @@ import java.util.Map;
         @JsonSubTypes.Type(value = RdbmsOutboundEndpoint.class, name = "RDBMS"),
         @JsonSubTypes.Type(value = HttpOutboundEndpoint.class, name = "HTTP")
 })
-public class OutboundEndpoint {
-
-    @Id
-    @GeneratedValue
-    private long id;
-
-    @NotNull
-    @Column(name = "name")
-    private String name;
+public class OutboundEndpoint extends AuditedEntity {
 
     @NotNull
     @Column(name = "type")
@@ -64,24 +55,6 @@ public class OutboundEndpoint {
 
     @Transient
     private long orchestrationId = 0;
-
-    @Column(name = "created")
-    private LocalDateTime created;
-    
-    @Column(name = "last_modified")
-    private LocalDateTime lastModified;
-
-    public long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public EndpointType getType() {
         return type;
@@ -146,34 +119,5 @@ public class OutboundEndpoint {
 
     public void setOrchestrationId(long orchestrationId) {
         this.orchestrationId = orchestrationId;
-    }
-
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-    
-    public LocalDateTime getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(LocalDateTime lastModified) {
-        this.lastModified = lastModified;
-    }
-    
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof OutboundEndpoint)) return false;
-        OutboundEndpoint that = (OutboundEndpoint) o;
-        return id == that.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (id ^ (id >>> 32));
     }
 }

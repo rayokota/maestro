@@ -2,31 +2,20 @@ package com.yammer.maestro.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.envers.Audited;
-import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "orchestrations")
 @Audited
-public class Orchestration {
-
-    @Id
-    @GeneratedValue
-    private long id;
-
-    @NotNull
-    @Column(name = "name", unique = true)
-    private String name;
+public class Orchestration extends AuditedEntity {
 
     @NotNull
     @Column(name = "type")
@@ -82,24 +71,6 @@ public class Orchestration {
 
     @Transient
     private boolean open = false;
-
-    @Column(name = "created")
-    private LocalDateTime created;
-    
-    @Column(name = "last_modified")
-    private LocalDateTime lastModified;
-
-    public long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public OrchestrationType getType() {
         return type;
@@ -206,38 +177,9 @@ public class Orchestration {
         this.open = open;
     }
 
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-    
-    public LocalDateTime getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(LocalDateTime lastModified) {
-        this.lastModified = lastModified;
-    }
-
     @Transient
     @JsonIgnore
     public int getDerivedPort() {
         return getPort() == 0 ? (int)getId() : getPort();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Orchestration)) return false;
-        Orchestration that = (Orchestration) o;
-        return id == that.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (id ^ (id >>> 32));
     }
 }

@@ -2,7 +2,6 @@ package com.yammer.maestro.daos;
 
 import com.google.common.base.Optional;
 import com.yammer.maestro.models.OutboundEndpoint;
-import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -12,7 +11,7 @@ import java.util.List;
 /**
  * A DAO for managing {@link com.yammer.maestro.models.OutboundEndpoint} objects.
  */
-public class OutboundEndpointDAO extends AbstractDAO<OutboundEndpoint> {
+public class OutboundEndpointDAO extends AbstractAuditedDAO<OutboundEndpoint> {
 
     /**
      * Creates a new DAO with the given session provider.

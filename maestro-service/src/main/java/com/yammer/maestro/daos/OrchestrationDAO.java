@@ -2,7 +2,6 @@ package com.yammer.maestro.daos;
 
 import com.google.common.base.Optional;
 import com.yammer.maestro.models.Orchestration;
-import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,9 +12,7 @@ import java.util.List;
 /**
  * A DAO for managing {@link Orchestration} objects.
  */
-public class OrchestrationDAO extends AbstractDAO<Orchestration> {
-
-    private final SessionFactory sessionFactory;
+public class OrchestrationDAO extends AbstractAuditedDAO<Orchestration> {
 
     /**
      * Creates a new DAO with the given session provider.
@@ -24,7 +21,6 @@ public class OrchestrationDAO extends AbstractDAO<Orchestration> {
      */
     public OrchestrationDAO(SessionFactory provider) {
         super(provider);
-        this.sessionFactory = provider;  // save the session factory since it's private in the superclass
     }
 
     /**
