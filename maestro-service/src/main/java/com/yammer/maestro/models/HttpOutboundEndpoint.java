@@ -1,5 +1,7 @@
 package com.yammer.maestro.models;
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.MediaType;
@@ -7,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 @Entity
 @Table(name = "http_outbound_endpoints")
 @PrimaryKeyJoinColumn(name = "id")
+@Audited
 public class HttpOutboundEndpoint extends OutboundEndpoint {
 
     public HttpOutboundEndpoint() {

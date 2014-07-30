@@ -1,5 +1,7 @@
 package com.yammer.maestro.models;
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -9,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "rdbms_outbound_endpoints")
 @PrimaryKeyJoinColumn(name = "id")
+@Audited
 public class RdbmsOutboundEndpoint extends OutboundEndpoint {
 
     public RdbmsOutboundEndpoint() {

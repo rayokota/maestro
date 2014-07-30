@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.envers.Audited;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "orchestrations")
+@Audited
 public class Orchestration {
 
     @Id
