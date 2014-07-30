@@ -5,6 +5,7 @@ import com.yammer.maestro.models.OutboundEndpoint;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class OutboundEndpointDAO extends AbstractDAO<OutboundEndpoint> {
      * @return the list of entities
      */
     public List<OutboundEndpoint> findAll() {
-        return (List<OutboundEndpoint>) criteria().list();
+        return (List<OutboundEndpoint>) criteria().addOrder(Order.asc("id")).list();
     }
 
     /**

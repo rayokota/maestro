@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.Set;
 
 @Path("/outboundEndpoints")
 public class OutboundEndpointResource {
@@ -48,8 +49,8 @@ public class OutboundEndpointResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     @UnitOfWork
-    public List<OutboundEndpoint> getAll() {
-        return Lists.newArrayList(Sets.newLinkedHashSet(dao.findAll()));
+    public Set<OutboundEndpoint> getAll() {
+        return Sets.newLinkedHashSet(dao.findAll());
     }
 
     @GET

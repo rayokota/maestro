@@ -20,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @Path("/orchestrations")
 public class OrchestrationResource {
@@ -51,8 +52,8 @@ public class OrchestrationResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     @UnitOfWork
-    public List<Orchestration> getAll() {
-        return Lists.newArrayList(Sets.newLinkedHashSet(dao.findAll()));
+    public Set<Orchestration> getAll() {
+        return Sets.newLinkedHashSet(dao.findAll());
     }
 
     @GET

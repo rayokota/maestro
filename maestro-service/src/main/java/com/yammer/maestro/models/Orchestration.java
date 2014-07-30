@@ -2,6 +2,7 @@ package com.yammer.maestro.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.hibernate.annotations.NaturalId;
 import org.joda.time.LocalDateTime;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -73,7 +75,8 @@ public class Orchestration {
     private ScriptType scriptType = ScriptType.JavaScript;
 
     @OneToMany(mappedBy = "orchestration", fetch = FetchType.EAGER)
-    private Set<OutboundEndpoint> outboundEndpoints = Sets.newHashSet();
+    @OrderBy("id")  // Hibernate preserves ordering even for sets
+    private Set<OutboundEndpoint> outboundEndpoints = Sets.newLinkedHashSet();
 
     @Transient
     private boolean open = false;
