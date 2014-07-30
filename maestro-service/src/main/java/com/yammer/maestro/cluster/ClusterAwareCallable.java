@@ -21,7 +21,7 @@ public class ClusterAwareCallable<T> implements HazelcastInstanceAware, Callable
     }
 
     public T call() throws Exception {
-        callable.setOrchestrationEngine((OrchestrationEngine)instance.getUserContext().get(OrchestrationEngine.ENGINE_KEY));
+        callable.setOrchestrationEngine((OrchestrationEngine)instance.getUserContext().get(OrchestrationEngine.ORCH_ENGINE_KEY));
         return callable.call();
     }
 }

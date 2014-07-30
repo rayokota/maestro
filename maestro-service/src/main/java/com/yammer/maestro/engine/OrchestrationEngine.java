@@ -27,7 +27,7 @@ import java.util.Map;
 public class OrchestrationEngine implements Managed {
     private static final Logger LOG = LoggerFactory.getLogger(OrchestrationEngine.class);
 
-    public static final String ENGINE_KEY = "engine";
+    public static final String ORCH_ENGINE_KEY = "orchEngine";
 
     private final MaestroConfiguration configuration;
     private final OrchestrationDAO dao;
@@ -40,9 +40,21 @@ public class OrchestrationEngine implements Managed {
         this.cluster = cluster;
     }
 
+    public MaestroConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    public OrchestrationDAO getOrchestrationDAO() {
+        return dao;
+    }
+
+    public Cluster getCluster() {
+        return cluster;
+    }
+
     @Override
     public void start() throws Exception {
-        this.cluster.addUserContext(ENGINE_KEY, this);
+        this.cluster.addUserContext(ORCH_ENGINE_KEY, this);
     }
 
     @Override
@@ -61,7 +73,7 @@ public class OrchestrationEngine implements Managed {
 
     public boolean start(Orchestration orchestration) {
         boolean result = doStart(orchestration);
-        cluster.execute(new OrchestrationAction(ActionType.START, orchestration.getContextPath()));
+        cluster.execute(new OrchestrationAction(OrchestrationActionType.START, orchestration.getContextPath()));
         return result;
     }
 
@@ -83,6 +95,7 @@ public class OrchestrationEngine implements Managed {
                             orchestration.getName(),
                             new ByteArrayInputStream(getGeneratedSpecification(orchestration).getBytes(StandardCharsets.UTF_8.name())))});
             muleContext = muleContextFactory.createMuleContext(configBuilder);
+            muleContext.getRegistry().registerObject(ORCH_ENGINE_KEY, this);
             muleContext.start();
             if (muleContext.isStarted()) {
                 contexts.put(orchestration.getContextPath(), muleContext);
@@ -100,7 +113,7 @@ public class OrchestrationEngine implements Managed {
 
     public boolean stop(Orchestration orchestration) {
         boolean result = doStop(orchestration);
-        cluster.execute(new OrchestrationAction(ActionType.STOP, orchestration.getContextPath()));
+        cluster.execute(new OrchestrationAction(OrchestrationActionType.STOP, orchestration.getContextPath()));
         return result;
     }
 

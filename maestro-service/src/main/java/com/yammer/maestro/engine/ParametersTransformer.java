@@ -23,7 +23,7 @@ public class ParametersTransformer extends AbstractMessageTransformer {
         LOG.debug("Relative path: {}",          message.getInboundProperty("http.relative.path"));
         LOG.debug("Relative path template: {}", message.getInvocationProperty("relativePathTemplate"));
 
-        String relativePathTemplate = message.getInvocationProperty("relativePathTemplate");
+        String relativePathTemplate = message.getInvocationProperty("orchRelativePathTemplate");
         String relativePath = message.getInboundProperty("http.relative.path");
         UriTemplate uriTemplate = new UriTemplate(relativePathTemplate);
         Map<String, String> pathParams = Maps.newHashMap();

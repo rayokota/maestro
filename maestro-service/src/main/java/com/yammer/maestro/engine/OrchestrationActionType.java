@@ -1,5 +1,5 @@
 package com.yammer.maestro.engine;
 
-public enum ActionType {
+public enum OrchestrationActionType {
     START, STOP
 }

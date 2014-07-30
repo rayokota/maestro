@@ -22,12 +22,17 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
     <flow name="${orchestration.name?xml}" doc:name="${orchestration.name?xml}">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${configuration.basePort + orchestration.derivedPort}" path="${orchestration.contextPath?xml}" contentType="${orchestration.contentType?xml}" keepAlive="${orchestration.keepAlive?c}" doc:name="HTTP"/>
 
+        <custom-transformer class="com.yammer.maestro.engine.MonitoringTransformer">
+            <spring:property name="actionType" value="STARTED"/>
+        </custom-transformer>
+
         <byte-array-to-string-transformer doc:name="Byte Array to String"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
         <json:json-to-object-transformer returnClass="java.lang.Object" doc:name="JSON to Object"/>
-        <set-variable variableName="inboundPayload" value="#[message.payload]" />
+        <set-variable variableName="orchInboundPayload" value="#[message.payload]" />
 
-        <set-variable variableName="relativePathTemplate" value="${orchestration.relativePathTemplate?xml}" doc:name="Set Relative Path Template"/>
+        <set-variable variableName="orchContextPath" value="${orchestration.contextPath?xml}" doc:name="Set Context Path"/>
+        <set-variable variableName="orchRelativePathTemplate" value="${orchestration.relativePathTemplate?xml}" doc:name="Set Relative Path Template"/>
         <custom-transformer class="com.yammer.maestro.engine.ParametersTransformer"/>
 
         <#list orchestration.outboundEndpoints as endpoint>
@@ -57,12 +62,26 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
         <set-variable variableName="${endpoint.variableName?xml}" value="#[message.payload]" doc:name="Variable"/>
         </#list>
 
-        <set-payload value="#[inboundPayload]" />
+        <set-payload value="#[orchInboundPayload]" />
         <scripting:transformer doc:name="Script">
             <scripting:script engine="${orchestration.scriptType?xml}"><![CDATA[
                 ${orchestration.script}
             ]]></scripting:script>
         </scripting:transformer>
+
+        <custom-transformer class="com.yammer.maestro.engine.MonitoringTransformer">
+            <spring:property name="actionType" value="COMPLETED"/>
+        </custom-transformer>
+
+        <catch-exception-strategy>
+            <logger message="The request cannot be processed, the error is #[exception.getSummaryMessage()]" level="ERROR"/>
+            <set-payload value="The request cannot be processed, the error is #[exception.getSummaryMessage()]"/>
+            <set-property propertyName="http.status" value="500"/>
+
+            <custom-transformer class="com.yammer.maestro.engine.MonitoringTransformer">
+                <spring:property name="actionType" value="ERRORED"/>
+            </custom-transformer>
+        </catch-exception-strategy>
     </flow>
 </mule>
 

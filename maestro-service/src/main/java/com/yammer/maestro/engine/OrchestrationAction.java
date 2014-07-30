@@ -6,11 +6,11 @@ import org.slf4j.LoggerFactory;
 public class OrchestrationAction implements OrchestrationEngineAwareCallable<Boolean> {
     private static final Logger LOG = LoggerFactory.getLogger(OrchestrationAction.class);
 
-    private ActionType actionType;
-    private String contextPath;
+    private final OrchestrationActionType actionType;
+    private final String contextPath;
     private transient OrchestrationEngine engine;
 
-    public OrchestrationAction(ActionType actionType, String contextPath) {
+    public OrchestrationAction(OrchestrationActionType actionType, String contextPath) {
         this.actionType = actionType;
         this.contextPath = contextPath;
     }
