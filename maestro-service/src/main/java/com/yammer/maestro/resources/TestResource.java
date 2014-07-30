@@ -32,9 +32,10 @@ public class TestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     @UnitOfWork
-    public Test get(@PathParam("id") LongParam id) {
+    public Test get(@PathParam("id") LongParam id,
+                    @DefaultValue("myEntity") @QueryParam("name") String name) {
         LOG.info("Get entity " + id.get());
-        return new Test(id.get(), "hello world");
+        return new Test(id.get(), name);
     }
 
     @PUT
