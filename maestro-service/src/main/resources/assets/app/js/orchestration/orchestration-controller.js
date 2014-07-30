@@ -17,7 +17,7 @@ angular.module('maestro')
       };
 
       $scope.setProperties = function (outboundEndpoint) {
-        var props =  outboundEndpoint.outboundProperties.split(/:?\s+/);
+        var props =  outboundEndpoint.outboundProperties.trim().split(/:?\s+/);
         outboundEndpoint.properties = {};
         for (var i = 0; i < props.length; i++) {
           if (i + 1 < props.length) {
@@ -208,16 +208,28 @@ angular.module('maestro')
         $scope.orchestration = orch;
       };
 
-      $scope.deploy = function () {
+      $scope.deploy = function (orch) {
         if ($scope.orchestration.state == 'Started') {
-          $http.post('maestro/orchestrations/' + $scope.orchestration.id + '/stop', '').success(
+          $http.post('maestro/orchestrations/' + orch.id + '/stop', '').success(
             function (data, status) {
-              $scope.orchestration.state = data.state;
+              for (var i = 0; i < $scope.orchestrations.length; i++) {
+                if ($scope.orchestrations[i].id === data.id) {
+                  $scope.orchestrations[i].state = data.state;
+                  $scope.orchestrations[i].open = true;
+                  break;
+                }
+              }
             });
         } else {
-          $http.post('maestro/orchestrations/' + $scope.orchestration.id + '/start', '').success(
+          $http.post('maestro/orchestrations/' + orch.id + '/start', '').success(
             function (data, status) {
-              $scope.orchestration.state = data.state;
+              for (var i = 0; i < $scope.orchestrations.length; i++) {
+                if ($scope.orchestrations[i].id === data.id) {
+                  $scope.orchestrations[i].state = data.state;
+                  $scope.orchestrations[i].open = true;
+                  break;
+                }
+              }
             });
         }
       }

@@ -209,12 +209,15 @@
 
     <div>
 
-        <div style="float:left;width:400px;background:whitesmoke;border:1px solid lightgray;border-radius:5px;">
+        <div class="col-md-5">
             <accordion>
                 <accordion-group ng-repeat="orch in orchestrations" is-open="orch.open" >
                     <accordion-heading>
                     <span ng-click="orchestrationHandler(orch)">{{orch.name}}</span>
+                    <span class="glyphicon glyphicon-ok icon-start pull-right" ng-show="orch.state == 'Started'"></span>
                     </accordion-heading>
+                    <span class="glyphicon glyphicon-play icon-start pull-right" ng-show="orch.state != 'Started'" ng-click="deploy(orch)"></span>
+                    <span class="glyphicon glyphicon-stop icon-stop pull-right" ng-show="orch.state == 'Started'" ng-click="deploy(orch)"></span>
                     <button class="btn btn-default btn-sm" ng-click="createOutboundEndpoint(orch)">Add Input</button>
                     <ul class="list-unstyled">
                     <li>Inputs:</li>
@@ -229,8 +232,7 @@
             </accordion>
         </div>
 
-        <div style="float:right;width:600px">
-
+        <div class="col-md-7">
             <div ng-show="mode == 'orchestration'">
                 <table class="table table-striped table-bordered">
                     <tr>
@@ -268,11 +270,6 @@
                 </table>
                 <div class="footer">
                     <div class="pull-right">
-                        <button class="btn"
-                                ng-class="{true: 'btn-success', false: 'btn-danger'}[orchestration.state != 'Started']"
-                                ng-click="deploy()">
-                            <span class="glyphicon"></span> {{orchestration.state == 'Started' && 'Stop' || 'Start'}}
-                        </button>
                         <button class="btn btn-primary"
                                 ng-disabled="orchestration.state == 'Started'"
                                 ng-click="updateOrchestration(orchestration.id)">
