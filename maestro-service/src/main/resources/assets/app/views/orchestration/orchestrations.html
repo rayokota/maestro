@@ -211,7 +211,7 @@
 
         <div style="float:left;width:400px;background:whitesmoke;border:1px solid lightgray;border-radius:5px;">
             <accordion>
-                <accordion-group ng-repeat="orch in orchestrations" >
+                <accordion-group ng-repeat="orch in orchestrations" is-open="orch.open" >
                     <accordion-heading>
                     <span ng-click="orchestrationHandler(orch)">{{orch.name}}</span>
                     </accordion-heading>

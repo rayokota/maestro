@@ -1,6 +1,7 @@
 package com.yammer.maestro.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Sets;
 import org.hibernate.annotations.NaturalId;
 import org.joda.time.LocalDateTime;
@@ -73,6 +74,9 @@ public class Orchestration {
 
     @OneToMany(mappedBy = "orchestration", fetch = FetchType.EAGER)
     private Set<OutboundEndpoint> outboundEndpoints = Sets.newHashSet();
+
+    @Transient
+    private boolean open = false;
 
     @Column(name = "created")
     private LocalDateTime created;
@@ -187,7 +191,16 @@ public class Orchestration {
     public void setOutboundEndpoints(Set<OutboundEndpoint> outboundEndpoints) {
         this.outboundEndpoints = outboundEndpoints;
     }
-    
+
+    @JsonProperty
+    public boolean getOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
+
     public LocalDateTime getCreated() {
         return created;
     }
