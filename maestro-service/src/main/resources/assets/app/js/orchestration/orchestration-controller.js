@@ -286,14 +286,6 @@ var OrchestrationSaveController =
   function ($scope, $modalInstance, orchestration) {
     $scope.orchestration = orchestration;
 
-
-    $scope.createdDateOptions = {
-      dateFormat: 'yy-mm-dd'
-    };
-    $scope.lastModifiedDateOptions = {
-      dateFormat: 'yy-mm-dd'
-    };
-
     $scope.ok = function () {
       $modalInstance.close($scope.orchestration);
     };
@@ -308,13 +300,6 @@ var OutboundEndpointSaveController =
     $scope.modes = ['Groovy', 'JavaScript', 'Python', 'Ruby'];
 
     $scope.outboundEndpoint = outboundEndpoint;
-
-    $scope.createdDateOptions = {
-      dateFormat: 'yy-mm-dd'
-    };
-    $scope.lastModifiedDateOptions = {
-      dateFormat: 'yy-mm-dd'
-    };
 
     $scope.ok = function () {
       $modalInstance.close($scope.outboundEndpoint);
