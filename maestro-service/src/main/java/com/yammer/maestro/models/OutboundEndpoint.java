@@ -47,6 +47,7 @@ public class OutboundEndpoint extends AuditedEntity {
     @CollectionTable(name="properties", joinColumns=@JoinColumn(name="endpoint_id"))
     @MapKeyColumn(name = "property_key")
     @Column(name="value")
+    @OrderBy("property_key")
     private Map<String, String> properties = Maps.newHashMap();
 
     @ManyToOne
