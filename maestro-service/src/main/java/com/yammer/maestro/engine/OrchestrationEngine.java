@@ -5,8 +5,8 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
 import com.yammer.maestro.cluster.Cluster;
 import com.yammer.maestro.config.MaestroConfiguration;
+import com.yammer.maestro.daos.LogDAO;
 import com.yammer.maestro.daos.OrchestrationDAO;
-import com.yammer.maestro.daos.ProcessDAO;
 import com.yammer.maestro.models.Orchestration;
 import com.yammer.maestro.models.OrchestrationType;
 import com.yammer.maestro.views.OrchestrationView;
@@ -32,17 +32,17 @@ public class OrchestrationEngine implements Managed {
 
     private final MaestroConfiguration configuration;
     private final OrchestrationDAO orchestrationDAO;
-    private final ProcessDAO processDAO;
+    private final LogDAO logDAO;
     private final Cluster cluster;
     private final Map<String, MuleContext> contexts = Maps.newConcurrentMap();
 
     public OrchestrationEngine(MaestroConfiguration configuration,
                                OrchestrationDAO orchestrationDAO,
-                               ProcessDAO processDAO,
+                               LogDAO logDAO,
                                Cluster cluster) {
         this.configuration = configuration;
         this.orchestrationDAO = orchestrationDAO;
-        this.processDAO = processDAO;
+        this.logDAO = logDAO;
         this.cluster = cluster;
     }
 
@@ -54,8 +54,8 @@ public class OrchestrationEngine implements Managed {
         return orchestrationDAO;
     }
 
-    public ProcessDAO getProcessDAO() {
-        return processDAO;
+    public LogDAO getLogDAO() {
+        return logDAO;
     }
 
     public Cluster getCluster() {

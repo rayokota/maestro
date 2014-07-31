@@ -25,7 +25,7 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
         <set-variable variableName="orchContextPath" value="${orchestration.contextPath?xml}" doc:name="Set Context Path"/>
         <set-variable variableName="orchRelativePathTemplate" value="${orchestration.relativePathTemplate?xml}" doc:name="Set Relative Path Template"/>
 
-        <custom-transformer class="com.yammer.maestro.engine.MonitoringTransformer">
+        <custom-transformer class="com.yammer.maestro.engine.LogTransformer">
             <spring:property name="processState" value="Started"/>
         </custom-transformer>
 
@@ -70,7 +70,9 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
             ]]></scripting:script>
         </scripting:transformer>
 
-        <custom-transformer class="com.yammer.maestro.engine.MonitoringTransformer">
+        <set-property propertyName="http.status" value="200"/>
+
+        <custom-transformer class="com.yammer.maestro.engine.LogTransformer">
             <spring:property name="processState" value="Completed"/>
         </custom-transformer>
 
@@ -79,7 +81,7 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
             <set-payload value="The request cannot be processed, the error is #[exception.getSummaryMessage()]"/>
             <set-property propertyName="http.status" value="500"/>
 
-            <custom-transformer class="com.yammer.maestro.engine.MonitoringTransformer">
+            <custom-transformer class="com.yammer.maestro.engine.LogTransformer">
                 <spring:property name="processState" value="Errored"/>
             </custom-transformer>
         </catch-exception-strategy>

@@ -5,19 +5,16 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.yammer.maestro.cluster.Cluster;
 import com.yammer.maestro.cluster.ClusterHealthCheck;
 import com.yammer.maestro.config.MaestroConfiguration;
+import com.yammer.maestro.daos.LogDAO;
 import com.yammer.maestro.daos.OrchestrationDAO;
 import com.yammer.maestro.daos.OutboundEndpointDAO;
-import com.yammer.maestro.daos.ProcessDAO;
 import com.yammer.maestro.engine.OrchestrationEngine;
-import com.yammer.maestro.models.HttpOutboundEndpoint;
-import com.yammer.maestro.models.Orchestration;
-import com.yammer.maestro.models.OutboundEndpoint;
-import com.yammer.maestro.models.Process;
-import com.yammer.maestro.models.RdbmsOutboundEndpoint;
+import com.yammer.maestro.models.*;
+import com.yammer.maestro.models.Log;
 import com.yammer.maestro.proxy.OrchestrationProxyServlet;
+import com.yammer.maestro.resources.LogResource;
 import com.yammer.maestro.resources.OrchestrationResource;
 import com.yammer.maestro.resources.OutboundEndpointResource;
-import com.yammer.maestro.resources.ProcessResource;
 import com.yammer.maestro.resources.TestResource;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
@@ -41,7 +38,7 @@ public class MaestroService extends Application<MaestroConfiguration> {
             OutboundEndpoint.class,
             RdbmsOutboundEndpoint.class,
             HttpOutboundEndpoint.class,
-            Process.class
+            Log.class
         ) {
         @Override
         public DataSourceFactory getDataSourceFactory(MaestroConfiguration configuration) {
@@ -79,9 +76,9 @@ public class MaestroService extends Application<MaestroConfiguration> {
         final SessionFactory sessionFactory = hibernateBundle.getSessionFactory();
         final OrchestrationDAO orchestrationDAO = new OrchestrationDAO(sessionFactory);
         final OutboundEndpointDAO outboundEndpointDAO = new OutboundEndpointDAO(sessionFactory);
-        final ProcessDAO processDAO = new ProcessDAO(sessionFactory);
+        final LogDAO logDAO = new LogDAO(sessionFactory);
         final Cluster cluster = buildCluster(configuration, environment);
-        final OrchestrationEngine engine = buildEngine(configuration, environment, orchestrationDAO, processDAO,cluster);
+        final OrchestrationEngine engine = buildEngine(configuration, environment, orchestrationDAO, logDAO, cluster);
         final OrchestrationProxyServlet servlet = new OrchestrationProxyServlet(configuration, orchestrationDAO);
 
         environment.servlets().addServlet("proxy", servlet).addMapping(configuration.getRootPath() + "/*");
@@ -91,7 +88,7 @@ public class MaestroService extends Application<MaestroConfiguration> {
         environment.jersey().register(new TestResource());
         environment.jersey().register(new OrchestrationResource(engine, orchestrationDAO));
         environment.jersey().register(new OutboundEndpointResource(orchestrationDAO, outboundEndpointDAO));
-        environment.jersey().register(new ProcessResource(processDAO));
+        environment.jersey().register(new LogResource(logDAO));
     }
 
     private Cluster buildCluster(MaestroConfiguration configuration, Environment environment) {
@@ -103,8 +100,8 @@ public class MaestroService extends Application<MaestroConfiguration> {
     }
 
     private OrchestrationEngine buildEngine(MaestroConfiguration configuration, Environment environment,
-                                            OrchestrationDAO orchestrationDAO, ProcessDAO processDAO, Cluster cluster) {
-        final OrchestrationEngine engine = new OrchestrationEngine(configuration, orchestrationDAO, processDAO, cluster);
+                                            OrchestrationDAO orchestrationDAO, LogDAO logDAO, Cluster cluster) {
+        final OrchestrationEngine engine = new OrchestrationEngine(configuration, orchestrationDAO, logDAO, cluster);
         environment.lifecycle().manage(engine);
         return engine;
     }

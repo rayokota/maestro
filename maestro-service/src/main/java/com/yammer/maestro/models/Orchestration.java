@@ -66,9 +66,9 @@ public class Orchestration extends AuditedEntity {
     private ScriptType scriptType = ScriptType.JavaScript;
 
     @NotNull
-    @Column(name = "monitoring_type")
+    @Column(name = "log_level")
     @Enumerated(EnumType.STRING)
-    private MonitoringType monitoringType = MonitoringType.DEBUG;
+    private LogLevel logLevel = LogLevel.ALL;
 
     @OneToMany(mappedBy = "orchestration", fetch = FetchType.EAGER)
     @OrderBy("id")  // Hibernate preserves ordering even for sets
@@ -165,12 +165,12 @@ public class Orchestration extends AuditedEntity {
         this.scriptType = scriptType;
     }
 
-    public MonitoringType getMonitoringType() {
-        return monitoringType;
+    public LogLevel getLogLevel() {
+        return logLevel;
     }
 
-    public void setMonitoringType(MonitoringType monitoringType) {
-        this.monitoringType = monitoringType;
+    public void setLogLevel(LogLevel logLevel) {
+        this.logLevel = logLevel;
     }
 
     public Set<OutboundEndpoint> getOutboundEndpoints() {

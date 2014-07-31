@@ -1,20 +1,19 @@
 package com.yammer.maestro.daos;
 
 import com.google.common.base.Optional;
-import com.yammer.maestro.models.Process;
+import com.yammer.maestro.models.Log;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Order;
 
 import java.util.List;
 
 /**
- * A DAO for managing {@link com.yammer.maestro.models.Orchestration} objects.
+ * A DAO for managing {@link com.yammer.maestro.models.Log} objects.
  */
-public class ProcessDAO extends AbstractDAO<Process> {
+public class LogDAO extends AbstractDAO<Log> {
 
     protected final SessionFactory sessionFactory;
 
@@ -23,38 +22,38 @@ public class ProcessDAO extends AbstractDAO<Process> {
      *
      * @param provider a session provider
      */
-    public ProcessDAO(SessionFactory provider) {
+    public LogDAO(SessionFactory provider) {
         super(provider);
         this.sessionFactory = provider;  // save the session factory since it's private in the superclass
     }
 
     /**
-     * Returns the {@link com.yammer.maestro.models.Process} with the given ID.
+     * Returns the {@link com.yammer.maestro.models.Log} with the given ID.
      *
      * @param id the entity ID
      * @return the entity with the given ID
      */
-    public Optional<Process> find(long id) {
+    public Optional<Log> find(long id) {
         return Optional.fromNullable(get(id));
     }
 
     /**
     /**
-     * Returns all {@link com.yammer.maestro.models.Process} entities, ordered by name.
+     * Returns all {@link com.yammer.maestro.models.Log} entities, ordered by name.
      *
      * @return the list of entities
      */
-    public List<Process> findAll() {
-        return (List<Process>) criteria().list();
+    public List<Log> findAll() {
+        return (List<Log>) criteria().list();
     }
 
     /**
-     * Saves the given {@link com.yammer.maestro.models.Process}.
+     * Saves the given {@link com.yammer.maestro.models.Log}.
      *
      * @param entity the entity to save
      * @return the persistent entity
      */
-    public Process save(Process entity) throws HibernateException {
+    public Log save(Log entity) throws HibernateException {
         boolean ownsSession = false;
         Session session = null;
         Transaction txn = null;
@@ -81,13 +80,13 @@ public class ProcessDAO extends AbstractDAO<Process> {
     }
 
     /**
-     * Merges the given {@link com.yammer.maestro.models.Process}.
+     * Merges the given {@link com.yammer.maestro.models.Log}.
      *
      * @param entity the entity to merge
      * @return the persistent entity
      */
-    public Process merge(Process entity) throws HibernateException {
-        Process process = null;
+    public Log merge(Log entity) throws HibernateException {
+        Log log = null;
         boolean ownsSession = false;
         Session session = null;
         Transaction txn = null;
@@ -99,7 +98,7 @@ public class ProcessDAO extends AbstractDAO<Process> {
             ownsSession = true;
         }
         try {
-            process = (Process) session.merge(entity);
+            log = (Log) session.merge(entity);
         } catch (Exception ex) {
             if (ownsSession) {
                 txn.rollback();
@@ -110,15 +109,15 @@ public class ProcessDAO extends AbstractDAO<Process> {
                 session.close();
             }
         }
-        return process;
+        return log;
     }
 
     /**
-     * Deletes the given {@link com.yammer.maestro.models.Process}.
+     * Deletes the given {@link com.yammer.maestro.models.Log}.
      *
      * @param entity the entity to delete
      */
-    public void delete(Process entity) throws HibernateException {
+    public void delete(Log entity) throws HibernateException {
         currentSession().delete(entity);
     }
 }

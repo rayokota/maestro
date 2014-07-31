@@ -1,0 +1,42 @@
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+
+            <th>Start</th>
+
+            <th>End</th>
+
+            <th>Method</th>
+
+            <th>Request</th>
+
+            <th>Version</th>
+
+            <th>Status</th>
+
+            <th>Message</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="log in logs">
+            <td>{{log.orchestrationName}}</td>
+
+            <td>{{log.startTime | date:'yyyy-MM-dd HH:mm:ss.sss' }}</td>
+
+            <td>{{log.endTime | date:'yyyy-MM-dd HH:mm:ss.sss' }}</td>
+
+            <td>{{log.method }}</td>
+
+            <td>{{log.request }}</td>
+
+            <td>{{log.version }}</td>
+
+            <td>{{log.status }}</td>
+
+            <td>{{log.message }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
