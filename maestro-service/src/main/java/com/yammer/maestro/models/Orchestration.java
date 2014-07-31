@@ -68,7 +68,7 @@ public class Orchestration extends AuditedEntity {
     @NotNull
     @Column(name = "log_level")
     @Enumerated(EnumType.STRING)
-    private LogLevel logLevel = LogLevel.ALL;
+    private LogLevel logLevel = LogLevel.ERROR;
 
     @OneToMany(mappedBy = "orchestration", fetch = FetchType.EAGER)
     @OrderBy("id")  // Hibernate preserves ordering even for sets

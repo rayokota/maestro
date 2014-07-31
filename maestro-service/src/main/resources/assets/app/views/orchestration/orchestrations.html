@@ -56,6 +56,16 @@
                     <label class="radio-inline"><input type="radio" name="method" value="OPTIONS"
                                                 ng-model="orchestration.method" ng-required="true"/> OPTIONS </label>
                 </div>
+                <div class="form-group">
+                    <label>Log Level:</label>
+
+                    <label class="radio-inline"><input type="radio" name="method" value="OFF" checked="checked"
+                                                       ng-model="orchestration.logLevel" ng-required="true"/> OFF </label>
+                    <label class="radio-inline"><input type="radio" name="method" value="ERROR"
+                                                       ng-model="orchestration.logLevel" ng-required="true"/> ERROR </label>
+                    <label class="radio-inline"><input type="radio" name="method" value="DEBUG"
+                                                       ng-model="orchestration.logLevel" ng-required="true"/> DEBUG </label>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" ng-click="cancel()">Cancel
@@ -258,6 +268,10 @@
                     <tr>
                         <th>Method:</th>
                         <td>{{orchestration.method}}</td>
+                    </tr>
+                    <tr>
+                        <th>Log Level:</th>
+                        <td>{{orchestration.logLevel}}</td>
                     </tr>
                     <tr>
                         <th>Created:</th>

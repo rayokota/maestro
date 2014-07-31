@@ -73,7 +73,7 @@ public class LogTransformer extends AbstractMessageTransformer implements MuleCo
     }
 
     private void doCompleted(MuleMessage message, LogDAO dao, Orchestration orchestration) {
-        if (orchestration.getLogLevel() == LogLevel.ALL) {
+        if (orchestration.getLogLevel() == LogLevel.DEBUG) {
             String httpStatus = message.getOutboundProperty("http.status");
             Log log = message.getInvocationProperty("orchLog");
             try {

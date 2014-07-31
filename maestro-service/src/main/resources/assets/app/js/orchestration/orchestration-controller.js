@@ -136,7 +136,8 @@ angular.module('maestro')
           "method": "GET",
           "keepAlive": false,
           "script": "",
-          "scriptType": "JavaScript"
+          "scriptType": "JavaScript",
+          "logLevel": "ERROR"
         };
       };
 
