@@ -65,6 +65,11 @@ public class Orchestration extends AuditedEntity {
     @Enumerated(EnumType.STRING)
     private ScriptType scriptType = ScriptType.JavaScript;
 
+    @NotNull
+    @Column(name = "monitoring_type")
+    @Enumerated(EnumType.STRING)
+    private MonitoringType monitoringType = MonitoringType.DEBUG;
+
     @OneToMany(mappedBy = "orchestration", fetch = FetchType.EAGER)
     @OrderBy("id")  // Hibernate preserves ordering even for sets
     private Set<OutboundEndpoint> outboundEndpoints = Sets.newLinkedHashSet();
@@ -158,6 +163,14 @@ public class Orchestration extends AuditedEntity {
 
     public void setScriptType(ScriptType scriptType) {
         this.scriptType = scriptType;
+    }
+
+    public MonitoringType getMonitoringType() {
+        return monitoringType;
+    }
+
+    public void setMonitoringType(MonitoringType monitoringType) {
+        this.monitoringType = monitoringType;
     }
 
     public Set<OutboundEndpoint> getOutboundEndpoints() {

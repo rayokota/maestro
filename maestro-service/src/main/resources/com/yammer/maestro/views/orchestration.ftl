@@ -22,8 +22,11 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
     <flow name="${orchestration.name?xml}" doc:name="${orchestration.name?xml}">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${configuration.basePort + orchestration.derivedPort}" path="${orchestration.contextPath?xml}" contentType="${orchestration.contentType?xml}" keepAlive="${orchestration.keepAlive?c}" doc:name="HTTP"/>
 
+        <set-variable variableName="orchContextPath" value="${orchestration.contextPath?xml}" doc:name="Set Context Path"/>
+        <set-variable variableName="orchRelativePathTemplate" value="${orchestration.relativePathTemplate?xml}" doc:name="Set Relative Path Template"/>
+
         <custom-transformer class="com.yammer.maestro.engine.MonitoringTransformer">
-            <spring:property name="actionType" value="STARTED"/>
+            <spring:property name="processState" value="Started"/>
         </custom-transformer>
 
         <byte-array-to-string-transformer doc:name="Byte Array to String"/>
@@ -31,8 +34,6 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
         <json:json-to-object-transformer returnClass="java.lang.Object" doc:name="JSON to Object"/>
         <set-variable variableName="orchInboundPayload" value="#[message.payload]" />
 
-        <set-variable variableName="orchContextPath" value="${orchestration.contextPath?xml}" doc:name="Set Context Path"/>
-        <set-variable variableName="orchRelativePathTemplate" value="${orchestration.relativePathTemplate?xml}" doc:name="Set Relative Path Template"/>
         <custom-transformer class="com.yammer.maestro.engine.ParametersTransformer"/>
 
         <#list orchestration.outboundEndpoints as endpoint>
@@ -70,7 +71,7 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
         </scripting:transformer>
 
         <custom-transformer class="com.yammer.maestro.engine.MonitoringTransformer">
-            <spring:property name="actionType" value="COMPLETED"/>
+            <spring:property name="processState" value="Completed"/>
         </custom-transformer>
 
         <catch-exception-strategy>
@@ -79,7 +80,7 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
             <set-property propertyName="http.status" value="500"/>
 
             <custom-transformer class="com.yammer.maestro.engine.MonitoringTransformer">
-                <spring:property name="actionType" value="ERRORED"/>
+                <spring:property name="processState" value="Errored"/>
             </custom-transformer>
         </catch-exception-strategy>
     </flow>

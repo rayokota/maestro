@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 import com.yammer.maestro.cluster.Cluster;
 import com.yammer.maestro.config.MaestroConfiguration;
 import com.yammer.maestro.daos.OrchestrationDAO;
+import com.yammer.maestro.daos.ProcessDAO;
 import com.yammer.maestro.models.Orchestration;
 import com.yammer.maestro.models.OrchestrationType;
 import com.yammer.maestro.views.OrchestrationView;
@@ -30,13 +31,18 @@ public class OrchestrationEngine implements Managed {
     public static final String ORCH_ENGINE_KEY = "orchEngine";
 
     private final MaestroConfiguration configuration;
-    private final OrchestrationDAO dao;
+    private final OrchestrationDAO orchestrationDAO;
+    private final ProcessDAO processDAO;
     private final Cluster cluster;
     private final Map<String, MuleContext> contexts = Maps.newConcurrentMap();
 
-    public OrchestrationEngine(MaestroConfiguration configuration, OrchestrationDAO dao, Cluster cluster) {
+    public OrchestrationEngine(MaestroConfiguration configuration,
+                               OrchestrationDAO orchestrationDAO,
+                               ProcessDAO processDAO,
+                               Cluster cluster) {
         this.configuration = configuration;
-        this.dao = dao;
+        this.orchestrationDAO = orchestrationDAO;
+        this.processDAO = processDAO;
         this.cluster = cluster;
     }
 
@@ -45,7 +51,11 @@ public class OrchestrationEngine implements Managed {
     }
 
     public OrchestrationDAO getOrchestrationDAO() {
-        return dao;
+        return orchestrationDAO;
+    }
+
+    public ProcessDAO getProcessDAO() {
+        return processDAO;
     }
 
     public Cluster getCluster() {
@@ -78,7 +88,7 @@ public class OrchestrationEngine implements Managed {
     }
 
     protected boolean doStart(String contextPath) {
-        Optional<Orchestration> orchestrationOpt = dao.findByContextPath(contextPath);
+        Optional<Orchestration> orchestrationOpt = orchestrationDAO.findByContextPath(contextPath);
         return orchestrationOpt.isPresent() ? doStart(orchestrationOpt.get()) : false;
     }
 
@@ -118,7 +128,7 @@ public class OrchestrationEngine implements Managed {
     }
 
     protected boolean doStop(String contextPath) {
-        Optional<Orchestration> orchestrationOpt = dao.findByContextPath(contextPath);
+        Optional<Orchestration> orchestrationOpt = orchestrationDAO.findByContextPath(contextPath);
         return orchestrationOpt.isPresent() ? doStop(orchestrationOpt.get()) : false;
     }
 

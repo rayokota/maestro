@@ -102,7 +102,6 @@ public class OrchestrationResource {
         if (entity.getState() == OrchestrationState.Started) {
             throw new WebApplicationException(Response.Status.CONFLICT);
         }
-        // TODO: use soft delete
         dao.delete(entity);
     }
 
