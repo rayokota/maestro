@@ -13,6 +13,12 @@ import java.util.Map;
 public class ParametersTransformer extends AbstractMessageTransformer {
     private static final Logger LOG = LoggerFactory.getLogger(ParametersTransformer.class);
 
+    private String relativePathTemplate;
+
+    public void setRelativePathTemplate(String relativePathTemplate) {
+        this.relativePathTemplate = relativePathTemplate;
+    }
+
     @Override
     public Object transformMessage(MuleMessage message, String encoding) throws TransformerException {
         LOG.debug("Context path: {}",           message.getInboundProperty("http.context.path"));
@@ -23,7 +29,6 @@ public class ParametersTransformer extends AbstractMessageTransformer {
         LOG.debug("Relative path: {}",          message.getInboundProperty("http.relative.path"));
         LOG.debug("Relative path template: {}", message.getInvocationProperty("relativePathTemplate"));
 
-        String relativePathTemplate = message.getInvocationProperty("orchRelativePathTemplate");
         String relativePath = message.getInboundProperty("http.relative.path");
         UriTemplate uriTemplate = new UriTemplate(relativePathTemplate);
         Map<String, String> pathParams = Maps.newHashMap();

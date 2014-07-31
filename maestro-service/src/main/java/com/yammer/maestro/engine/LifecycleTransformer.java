@@ -13,13 +13,20 @@ import org.mule.api.context.MuleContextAware;
 import org.mule.api.transformer.TransformerException;
 import org.mule.transformer.AbstractMessageTransformer;
 
-public class LogTransformer extends AbstractMessageTransformer implements MuleContextAware {
+public class LifecycleTransformer extends AbstractMessageTransformer implements MuleContextAware {
+
+    public final static String LOG_KEY = "_log";
 
     private ProcessState processState;
+    private String contextPath;
     private MuleContext muleContext;
 
     public void setProcessState(String processState) {
         this.processState = ProcessState.valueOf(processState);
+    }
+
+    public void setContextPath(String contextPath) {
+        this.contextPath = contextPath;
     }
 
     @Override
@@ -31,7 +38,6 @@ public class LogTransformer extends AbstractMessageTransformer implements MuleCo
     // preventing it from working in the catch-exception-strategy element; using a transformer seems to work
     @Override
     public Object transformMessage(MuleMessage message, String encoding) throws TransformerException {
-        String contextPath = message.getInvocationProperty("orchContextPath");
         OrchestrationEngine engine = muleContext.getRegistry().lookupObject(OrchestrationEngine.ORCH_ENGINE_KEY);
         LogDAO logDAO = engine.getLogDAO();
         OrchestrationDAO orchestrationDAO = engine.getOrchestrationDAO();
@@ -68,7 +74,7 @@ public class LogTransformer extends AbstractMessageTransformer implements MuleCo
             log.setMethod(HttpMethod.valueOf(method.toUpperCase()));
             log.setRequest(request);
             log.setVersion(version);
-            message.setInvocationProperty("orchLog", log);
+            message.setInvocationProperty(LOG_KEY, log);
         }
     }
 
@@ -76,7 +82,7 @@ public class LogTransformer extends AbstractMessageTransformer implements MuleCo
         if (orchestration.getLogLevel() == LogLevel.DEBUG) {
             String httpStatus = message.getOutboundProperty("http.status");
 
-            Log log = message.getInvocationProperty("orchLog");
+            Log log = message.getInvocationProperty(LOG_KEY);
             try {
                 log.setMessage(message.getPayloadAsString());
             } catch (Exception e) {
@@ -93,7 +99,7 @@ public class LogTransformer extends AbstractMessageTransformer implements MuleCo
         if (orchestration.getLogLevel() != LogLevel.OFF) {
             String httpStatus = message.getOutboundProperty("http.status");
 
-            Log log = message.getInvocationProperty("orchLog");
+            Log log = message.getInvocationProperty(LOG_KEY);
             ExceptionPayload ep = message.getExceptionPayload();
             if (ep != null) {
                 Throwable t = ep.getException();

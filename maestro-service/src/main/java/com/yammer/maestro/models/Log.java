@@ -8,7 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "logs")
+@Table(name = "logs", indexes = { @Index(columnList = "start_time") })
 public class Log {
     @Id
     @GeneratedValue

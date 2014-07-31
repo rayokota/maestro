@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class LogDAO extends AbstractDAO<Log> {
      * @return the list of entities
      */
     public List<Log> findAll() {
-        return (List<Log>) criteria().list();
+        return (List<Log>) criteria().addOrder(Order.desc("startTime")).list();
     }
 
     /**
