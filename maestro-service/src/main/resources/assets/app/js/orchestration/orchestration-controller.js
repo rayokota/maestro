@@ -132,6 +132,7 @@ angular.module('maestro')
           "name": "",
           "contextPath": "",
           "relativePathTemplate": "",
+          "filter": "",
           "contentType": "application/json",
           "method": "GET",
           "keepAlive": false,

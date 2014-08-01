@@ -36,6 +36,10 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
             <spring:property name="relativePathTemplate" value="${orchestration.relativePathTemplate?xml}"/>
         </custom-transformer>
 
+        <message-filter doc:name="Message" throwOnUnaccepted="true">
+            <expression-filter expression="${orchestration.filter!"true"?xml}"/>
+        </message-filter>
+
         <#list orchestration.outboundEndpoints as endpoint>
         <#if endpoint.type == "HTTP">
         <#if endpoint.script?trim?length &gt; 0>
@@ -77,16 +81,28 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
             <spring:property name="contextPath" value="${orchestration.contextPath?xml}"/>
         </custom-transformer>
 
-        <catch-exception-strategy>
-            <logger message="The request cannot be processed, the error is #[exception.getSummaryMessage()]" level="ERROR"/>
-            <set-payload value="The request cannot be processed, the error is #[exception.getSummaryMessage()]"/>
-            <set-property propertyName="http.status" value="500"/>
+        <choice-exception-strategy>
+            <catch-exception-strategy when="#[exception.causedBy(org.mule.api.routing.filter.FilterUnacceptedException)]">
+                <logger message="The request cannot be processed, failed the filter: ${orchestration.filter}" level="ERROR"/>
+                <set-payload value="The request cannot be processed, failed the filter: ${orchestration.filter}."/>
+                <set-property propertyName="http.status" value="422"/>
 
-            <custom-transformer class="com.yammer.maestro.engine.LifecycleTransformer">
-                <spring:property name="processState" value="Errored"/>
-                <spring:property name="contextPath" value="${orchestration.contextPath?xml}"/>
-            </custom-transformer>
-        </catch-exception-strategy>
+                <custom-transformer class="com.yammer.maestro.engine.LifecycleTransformer">
+                    <spring:property name="processState" value="Completed"/>
+                    <spring:property name="contextPath" value="${orchestration.contextPath?xml}"/>
+                </custom-transformer>
+            </catch-exception-strategy>
+            <catch-exception-strategy>
+                <logger message="The request cannot be processed, the error is #[exception.getSummaryMessage()]" level="ERROR"/>
+                <set-payload value="The request cannot be processed, the error is #[exception.getSummaryMessage()]"/>
+                <set-property propertyName="http.status" value="500"/>
+
+                <custom-transformer class="com.yammer.maestro.engine.LifecycleTransformer">
+                    <spring:property name="processState" value="Errored"/>
+                    <spring:property name="contextPath" value="${orchestration.contextPath?xml}"/>
+                </custom-transformer>
+            </catch-exception-strategy>
+        </choice-exception-strategy>
     </flow>
 </mule>
 

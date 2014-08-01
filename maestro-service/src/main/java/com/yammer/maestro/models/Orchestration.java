@@ -41,6 +41,9 @@ public class Orchestration extends AuditedEntity {
     @Column(name = "relative_path_template", length = 2048)
     private String relativePathTemplate;
 
+    @Column(name = "filter", length = 2048)
+    private String filter;
+
     @NotNull
     @Column(name = "content_type")
     private String contentType = MediaType.APPLICATION_JSON;
@@ -115,6 +118,14 @@ public class Orchestration extends AuditedEntity {
 
     public void setRelativePathTemplate(String relativePathTemplate) {
         this.relativePathTemplate = relativePathTemplate;
+    }
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
     }
 
     public String getContentType() {

@@ -7,6 +7,8 @@ import io.dropwizard.jersey.params.LongParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -22,7 +24,7 @@ public class TestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     @UnitOfWork
-    public Test create(Test entity) {
+    public Test create(@Valid Test entity) {
         LOG.info("Create entity " + entity.getName());
         return new Test(++counter, entity.getName());
     }
@@ -44,7 +46,7 @@ public class TestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     @UnitOfWork
-    public Test update(@PathParam("id") LongParam id, Test entity) {
+    public Test update(@PathParam("id") LongParam id, @Valid Test entity) {
         LOG.info("Update entity " + id.get());
         return new Test(id.get(), entity.getName());
     }
@@ -59,6 +61,7 @@ public class TestResource {
 
     public static class Test {
         @JsonProperty
+        @Min(1)
         protected long id;
         @JsonProperty
         protected String name;

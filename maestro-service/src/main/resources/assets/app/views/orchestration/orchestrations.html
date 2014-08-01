@@ -41,6 +41,14 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Validation Filter:</label>
+
+                    <input type="text" class="form-control" name="filter"
+                           ng-model="orchestration.filter" ng-required="true"
+                            />
+                </div>
+
+                <div class="form-group">
                     <label>Method:</label>
 
                     <label class="radio-inline"><input type="radio" name="method" value="GET" checked="checked"
@@ -59,11 +67,11 @@
                 <div class="form-group">
                     <label>Log Level:</label>
 
-                    <label class="radio-inline"><input type="radio" name="method" value="OFF" checked="checked"
+                    <label class="radio-inline"><input type="radio" name="logLevel" value="OFF" checked="checked"
                                                        ng-model="orchestration.logLevel" ng-required="true"/> OFF </label>
-                    <label class="radio-inline"><input type="radio" name="method" value="ERROR"
+                    <label class="radio-inline"><input type="radio" name="logLevel" value="ERROR"
                                                        ng-model="orchestration.logLevel" ng-required="true"/> ERROR </label>
-                    <label class="radio-inline"><input type="radio" name="method" value="DEBUG"
+                    <label class="radio-inline"><input type="radio" name="logLevel" value="DEBUG"
                                                        ng-model="orchestration.logLevel" ng-required="true"/> DEBUG </label>
                 </div>
             </div>
@@ -264,6 +272,10 @@
                     <tr>
                         <th>Relative Path Template:</th>
                         <td>{{orchestration.relativePathTemplate}}</td>
+                    </tr>
+                    <tr>
+                        <th>Validation Filter:</th>
+                        <td>{{orchestration.filter}}</td>
                     </tr>
                     <tr>
                         <th>Method:</th>
