@@ -37,8 +37,9 @@
                     <label>Relative Path Template:</label>
 
                     <input type="text" class="form-control" name="relativePathTemplate"
-                           ng-model="orchestration.relativePathTemplate" ng-required="true"
+                           ng-model="orchestration.relativePathTemplate" ng-required="true" ng-pattern="/^[^/]/"
                             />
+                    <span ng-show="form.relativePathTemplate.$error.pattern">The relative path must not start with a slash.</span>
                 </div>
 
                 <div class="form-group">
@@ -324,6 +325,10 @@
                     <tr>
                         <th>State:</th>
                         <td>{{orchestration.state}}</td>
+                    </tr>
+                    <tr>
+                        <th>Full Path:</th>
+                        <td>/api/{{orchestration.contextPath}}/{{orchestration.relativePathTemplate}}</td>
                     </tr>
                     <tr>
                         <th>Context Path:</th>
