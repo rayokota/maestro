@@ -82,8 +82,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" ng-click="cancel()">Cancel
-                </button>
+                <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
                 <button type="submit" ng-disabled="form.$invalid" class="btn btn-success">Save</button>
             </div>
         </form>
@@ -235,13 +234,51 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" ng-click="cancel()">Cancel
-                </button>
+                <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
                 <button type="submit" ng-disabled="form.$invalid" class="btn btn-success">Save</button>
             </div>
         </form>
     </script>
 
+    <script type="text/ng-template" id="orchestration-delete.html">
+        <form name="form" role="form" novalidate
+              class="ng-scope ng-invalid ng-invalid-required ng-dirty"
+              ng-submit="ok()">
+
+            <div class="modal-header">
+                <button type="button" class="close"
+                        ng-click="cancel()">&times;</button>
+                <h4 class="modal-title">Please confirm.</h4>
+            </div>
+            <div class="modal-body">
+                Delete the orchestration {{orchestration.name}}?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+                <button type="submit" ng-disabled="form.$invalid" class="btn btn-danger">Delete</button>
+            </div>
+        </form>
+    </script>
+
+    <script type="text/ng-template" id="outbound-endpoint-delete.html">
+        <form name="form" role="form" novalidate
+              class="ng-scope ng-invalid ng-invalid-required ng-dirty"
+              ng-submit="ok()">
+
+            <div class="modal-header">
+                <button type="button" class="close"
+                        ng-click="cancel()">&times;</button>
+                <h4 class="modal-title">Please confirm.</h4>
+            </div>
+            <div class="modal-body">
+                Delete the action {{outboundEndpoint.name}}?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+                <button type="submit" ng-disabled="form.$invalid" class="btn btn-danger">Delete</button>
+            </div>
+        </form>
+    </script>
 
     <button class="btn btn-primary btn-lg" ng-click="createOrchestration()">
         <span class="glyphicon glyphicon-flash"></span> Add Orchestration
@@ -327,6 +364,11 @@
                                 ng-click="updateOrchestration(orchestration.id)">
                             <span class="glyphicon"></span> Edit
                         </button>
+                        <button class="btn btn-danger"
+                                ng-disabled="orchestration.state == 'Started'"
+                                ng-click="confirmDeleteOrchestration(orchestration.id)">
+                            <span class="glyphicon"></span> Delete
+                        </button>
                     </div>
                 </div>
             </div>
@@ -398,11 +440,18 @@
                     </tr>
                 </table>
                 <div class="footer">
-                    <button class="btn btn-primary pull-right"
-                            ng-disabled="orchestration.state == 'Started'"
-                            ng-click="updateOutboundEndpoint(outboundEndpoint.id)">
-                        <span class="glyphicon"></span> Edit
-                    </button>
+                    <div class="pull-right">
+                        <button class="btn btn-primary"
+                                ng-disabled="orchestration.state == 'Started'"
+                                ng-click="updateOutboundEndpoint(outboundEndpoint.id)">
+                            <span class="glyphicon"></span> Edit
+                        </button>
+                        <button class="btn btn-danger"
+                                ng-disabled="orchestration.state == 'Started'"
+                                ng-click="confirmDeleteOutboundEndpoint(outboundEndpoint.id)">
+                            <span class="glyphicon"></span> Delete
+                        </button>
+                    </div>
                 </div>
             </div>
 

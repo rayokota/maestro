@@ -77,7 +77,7 @@ public class Orchestration extends AuditedEntity {
     @Enumerated(EnumType.STRING)
     private LogLevel logLevel = LogLevel.ERROR;
 
-    @OneToMany(mappedBy = "orchestration", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "orchestration", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @OrderBy("id")  // Hibernate preserves ordering even for sets
     private Set<OutboundEndpoint> outboundEndpoints = Sets.newLinkedHashSet();
 

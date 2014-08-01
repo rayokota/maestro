@@ -72,7 +72,7 @@ angular.module('maestro')
       $scope.deleteOutboundEndpoint = function (id) {
         OutboundEndpoint.delete({id: id},
           function () {
-            Orchestration.get({id: data.orchestrationId},
+            Orchestration.get({id: $scope.orchestration.id},
               function (data) {
                 data.open = true;
                 for (var i = 0; i < $scope.orchestrations.length; i++) {
@@ -83,7 +83,6 @@ angular.module('maestro')
                 }
               }
             );
-            $scope.orchestrations = Orchestration.query();
           });
       };
 
@@ -190,6 +189,40 @@ angular.module('maestro')
           outboundEndpoint.orchestrationId = $scope.orchestration.id;
           $scope.outboundEndpoint = outboundEndpoint;
           $scope.saveOutboundEndpoint(id);
+        });
+      };
+
+      $scope.confirmDeleteOrchestration = function (id) {
+        var orchestrationDelete = $modal.open({
+          templateUrl: 'orchestration-delete.html',
+          controller: OrchestrationDeleteController,
+          resolve: {
+            orchestration: function () {
+              return $scope.orchestration;
+            }
+          }
+        });
+
+        orchestrationDelete.result.then(function () {
+          $scope.orchestration = null;
+          $scope.deleteOrchestration(id);
+        });
+      };
+
+      $scope.confirmDeleteOutboundEndpoint = function (id) {
+        var outboundEndpointDelete = $modal.open({
+          templateUrl: 'outbound-endpoint-delete.html',
+          controller: OutboundEndpointDeleteController,
+          resolve: {
+            outboundEndpoint: function () {
+              return $scope.outboundEndpoint;
+            }
+          }
+        });
+
+        outboundEndpointDelete.result.then(function () {
+          $scope.outboundEndpoint = null;
+          $scope.deleteOutboundEndpoint(id);
         });
       };
 
@@ -313,3 +346,30 @@ var OutboundEndpointSaveController =
       $modalInstance.dismiss('cancel');
     };
   };
+
+var OrchestrationDeleteController =
+  function ($scope, $modalInstance, orchestration) {
+    $scope.orchestration = orchestration;
+
+    $scope.ok = function () {
+      $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+  };
+
+var OutboundEndpointDeleteController =
+  function ($scope, $modalInstance, outboundEndpoint) {
+    $scope.outboundEndpoint = outboundEndpoint;
+
+    $scope.ok = function () {
+      $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+  };
+
