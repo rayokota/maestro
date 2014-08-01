@@ -2,6 +2,7 @@ package com.yammer.maestro.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.Lists;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.LongParam;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 @Path("/test")
 public class TestResource {
@@ -27,6 +29,19 @@ public class TestResource {
     public Test create(@Valid Test entity) {
         LOG.info("Create entity " + entity.getName());
         return new Test(++counter, entity.getName());
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Timed
+    @UnitOfWork
+    public List<Test> getAll(@DefaultValue("myEntity") @QueryParam("name") String name) {
+        LOG.info("Get entities");
+        List<Test> entities = Lists.newArrayList();
+        for (int i = 0; i < 2; i++) {
+            entities.add(new Test(i, name + i));
+        }
+        return entities;
     }
 
     @GET

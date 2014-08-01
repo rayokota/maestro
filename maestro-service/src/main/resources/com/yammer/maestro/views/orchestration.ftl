@@ -37,7 +37,7 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
         </custom-transformer>
 
         <message-filter doc:name="Message" throwOnUnaccepted="true">
-            <expression-filter expression="#[${orchestration.filter?xml!"true"}]"/>
+            <expression-filter expression="#[${(orchestration.filter!"true")?xml}]"/>
         </message-filter>
 
         <#if orchestration.parallel>
@@ -47,7 +47,7 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
 
         <#list orchestration.outboundEndpoints as endpoint>
         <choice doc:name="Choice">
-            <when expression="#[${endpoint.condition?xml!"true"}]">
+            <when expression="#[${(endpoint.condition!"true")?xml}]">
                 <#if endpoint.type == "HTTP">
                 <#if endpoint.script?trim?length &gt; 0>
                 <scripting:transformer doc:name="Script">
