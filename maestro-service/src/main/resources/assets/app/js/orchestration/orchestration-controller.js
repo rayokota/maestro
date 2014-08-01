@@ -267,7 +267,7 @@ angular.module('maestro')
           };
         }
       };
-      $scope.outputOption = {
+      $scope.responseOption = {
         mode: $scope.orchestration.scriptType.toLowerCase(),
         onLoad: function (editor) {
           //editor.setKeyboardHandler("ace/keyboard/vim");
@@ -276,7 +276,7 @@ angular.module('maestro')
           });
 
           // HACK to have the ace instance in the scope...
-          $scope.outputModeChanged = function () {
+          $scope.responseModeChanged = function () {
             editor.getSession().setMode("ace/mode/" + $scope.orchestration.scriptType.toLowerCase());
           };
         }

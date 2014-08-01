@@ -91,7 +91,7 @@
             <div class="modal-header">
                 <button type="button" class="close"
                         ng-click="cancel()">&times;</button>
-                <h4 class="modal-title" id="myOutboundEndpointLabel">Create or Edit an Input</h4>
+                <h4 class="modal-title" id="myOutboundEndpointLabel">Create or Edit an Action</h4>
                 <div class="form-group">
                     <label>Type:</label>
 
@@ -252,15 +252,15 @@
                     </accordion-heading>
                     <span class="glyphicon glyphicon-play icon-start pull-right" ng-show="orch.state != 'Started'" ng-click="deploy(orch)"></span>
                     <span class="glyphicon glyphicon-stop icon-stop pull-right" ng-show="orch.state == 'Started'" ng-click="deploy(orch)"></span>
-                    <button class="btn btn-default btn-sm" ng-click="createOutboundEndpoint(orch)">Add Input</button>
+                    <button class="btn btn-default btn-sm" ng-click="createOutboundEndpoint(orch)">Add Action</button>
                     <ul class="list-unstyled">
-                    <li>Inputs:</li>
+                    <li>Actions:</li>
                     <ul>
                     <li ng-repeat="endpoint in orch.outboundEndpoints">
                         <a ng-click="outboundEndpointHandler(orch, endpoint)" href="">{{endpoint.name}}</a>
                     </li>
                     </ul>
-                    <li><a ng-click="scriptHandler(orch)" href="">Output</a></li>
+                    <li><a ng-click="scriptHandler(orch)" href="">Response</a></li>
                     </ul>
                 </accordion-group>
             </accordion>
@@ -397,10 +397,10 @@
             </div>
 
             <div ng-show="mode == 'script'">
-                <div class="output-editor" ui-ace="outputOption" readonly="{{!editMode}}" ng-model='orchestration.script'/>
+                <div class="response-editor" ui-ace="responseOption" readonly="{{!editMode}}" ng-model='orchestration.script'/>
                 <div class="footer">
                     Mode:
-                    <select ng-disabled="!editMode" ng-model="orchestration.scriptType" ng-options="m for m in modes" ng-change="outputModeChanged()"></select>
+                    <select ng-disabled="!editMode" ng-model="orchestration.scriptType" ng-options="m for m in modes" ng-change="responseModeChanged()"></select>
                     <button class="btn pull-right"
                             ng-disabled="orchestration.state == 'Started'"
                             ng-class="{true: 'btn-primary', false: 'btn-success'}[!editMode]"
