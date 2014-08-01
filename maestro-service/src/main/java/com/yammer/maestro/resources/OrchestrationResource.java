@@ -161,7 +161,7 @@ public class OrchestrationResource {
     }
 
     @GET
-    @Path("{id}/revisionNumbers")
+    @Path("{id}/revisionIds")
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     @UnitOfWork

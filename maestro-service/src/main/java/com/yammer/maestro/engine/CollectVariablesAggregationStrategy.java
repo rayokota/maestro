@@ -1,6 +1,5 @@
 package com.yammer.maestro.engine;
 
-import org.mule.DefaultMuleEvent;
 import org.mule.api.MuleEvent;
 import org.mule.api.MuleException;
 import org.mule.api.MuleMessage;

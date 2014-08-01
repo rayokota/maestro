@@ -8,6 +8,7 @@ import com.yammer.maestro.config.MaestroConfiguration;
 import com.yammer.maestro.daos.LogDAO;
 import com.yammer.maestro.daos.OrchestrationDAO;
 import com.yammer.maestro.models.Orchestration;
+import com.yammer.maestro.models.OrchestrationState;
 import com.yammer.maestro.models.OrchestrationType;
 import com.yammer.maestro.views.OrchestrationView;
 import io.dropwizard.lifecycle.Managed;
@@ -22,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -65,6 +67,13 @@ public class OrchestrationEngine implements Managed {
     @Override
     public void start() throws Exception {
         this.cluster.addUserContext(ORCH_ENGINE_KEY, this);
+
+        List<Orchestration> orchestrations = orchestrationDAO.findAll();
+        for (Orchestration orchestration : orchestrations) {
+            if (orchestration.getState() == OrchestrationState.Started) {
+                start(orchestration);
+            }
+        }
     }
 
     @Override

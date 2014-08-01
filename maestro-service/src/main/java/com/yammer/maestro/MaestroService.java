@@ -10,7 +10,6 @@ import com.yammer.maestro.daos.OrchestrationDAO;
 import com.yammer.maestro.daos.OutboundEndpointDAO;
 import com.yammer.maestro.engine.OrchestrationEngine;
 import com.yammer.maestro.models.*;
-import com.yammer.maestro.models.Log;
 import com.yammer.maestro.proxy.OrchestrationProxyServlet;
 import com.yammer.maestro.resources.LogResource;
 import com.yammer.maestro.resources.OrchestrationResource;

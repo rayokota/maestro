@@ -64,7 +64,21 @@ public class OrchestrationDAO extends AbstractAuditedDAO<Orchestration> {
      * @return the list of entities
      */
     public List<Orchestration> findAll() {
-        return (List<Orchestration>) criteria().addOrder(Order.asc("name")).list();
+        List<Orchestration> orchestrations = null;
+        boolean ownsSession = false;
+        Session session = null;
+        try {
+            session = currentSession();
+        } catch (HibernateException ex) {
+            session = sessionFactory.openSession();
+            ownsSession = true;
+        }
+        try {
+            orchestrations = (List<Orchestration>) session.createCriteria(getEntityClass()).addOrder(Order.asc("name")).list();
+        } finally {
+            if (ownsSession) session.close();
+        }
+        return orchestrations;
     }
 
     /**

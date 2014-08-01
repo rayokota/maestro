@@ -96,7 +96,7 @@ public class OutboundEndpointResource {
     }
 
     @GET
-    @Path("{id}/revisionNumbers")
+    @Path("{id}/revisionIds")
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     @UnitOfWork
