@@ -37,34 +37,41 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
         </custom-transformer>
 
         <message-filter doc:name="Message" throwOnUnaccepted="true">
-            <expression-filter expression="${orchestration.filter!"true"?xml}"/>
+            <expression-filter expression="#[${orchestration.filter?xml!"true"}]"/>
         </message-filter>
 
         <#list orchestration.outboundEndpoints as endpoint>
-        <#if endpoint.type == "HTTP">
-        <#if endpoint.script?trim?length &gt; 0>
-        <scripting:transformer doc:name="Script">
-            <scripting:script engine="${endpoint.scriptType?xml}"><![CDATA[
-            ${endpoint.script}
-            ]]></scripting:script>
-        </scripting:transformer>
-        </#if>
-        <http:outbound-endpoint exchange-pattern="request-response" host="${endpoint.host?xml}" port="${endpoint.port}" method="${endpoint.method?xml}" path="${endpoint.path?xml}" contentType="${endpoint.contentType?xml}" keepAlive="${endpoint.keepAlive?c}" doc:name="HTTP">
-            <#list endpoint.properties?keys as key>
-            <set-property propertyName="${key?xml}" value="${endpoint.properties[key]?xml}"/>
-            </#list>
-        </http:outbound-endpoint>
-        <byte-array-to-string-transformer doc:name="Byte Array to String"/>
-        <json:object-to-json-transformer doc:name="Object to JSON"/>
-        <json:json-to-object-transformer returnClass="java.lang.Object" doc:name="JSON to Object"/>
-        <#else>
-        <db:select config-ref="${endpoint.name?xml}" doc:name="Database">
-            <db:parameterized-query><![CDATA[
-            ${endpoint.query}
-            ]]></db:parameterized-query>
-        </db:select>
-        </#if>
-        <set-variable variableName="${endpoint.variableName?xml}" value="#[message.payload]" doc:name="Variable"/>
+        <choice doc:name="Choice">
+            <when expression="#[${endpoint.condition?xml!"true"}]">
+                <#if endpoint.type == "HTTP">
+                <#if endpoint.script?trim?length &gt; 0>
+                <scripting:transformer doc:name="Script">
+                    <scripting:script engine="${endpoint.scriptType?xml}"><![CDATA[
+                        ${endpoint.script}
+                    ]]></scripting:script>
+                </scripting:transformer>
+                </#if>
+                <http:outbound-endpoint exchange-pattern="request-response" host="${endpoint.host?xml}" port="${endpoint.port}" method="${endpoint.method?xml}" path="${endpoint.path?xml}" contentType="${endpoint.contentType?xml}" keepAlive="${endpoint.keepAlive?c}" doc:name="HTTP">
+                    <#list endpoint.properties?keys as key>
+                    <set-property propertyName="${key?xml}" value="${endpoint.properties[key]?xml}"/>
+                    </#list>
+                </http:outbound-endpoint>
+                <byte-array-to-string-transformer doc:name="Byte Array to String"/>
+                <json:object-to-json-transformer doc:name="Object to JSON"/>
+                <json:json-to-object-transformer returnClass="java.lang.Object" doc:name="JSON to Object"/>
+                <#else>
+                <db:select config-ref="${endpoint.name?xml}" doc:name="Database">
+                    <db:parameterized-query><![CDATA[
+                        ${endpoint.query}
+                    ]]></db:parameterized-query>
+                </db:select>
+                </#if>
+                <set-variable variableName="${endpoint.variableName?xml}" value="#[message.payload]" doc:name="Variable"/>
+            </when>
+            <otherwise>
+                <logger message="Skipping action ${endpoint.name}" level="DEBUG" doc:name="Logger"/>
+            </otherwise>
+        </choice>
         </#list>
 
         <set-payload value="#[_inboundPayload]" />

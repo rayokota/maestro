@@ -44,7 +44,7 @@
                     <label>Validation Filter:</label>
 
                     <input type="text" class="form-control" name="filter"
-                           ng-model="orchestration.filter" ng-required="true"
+                           ng-model="orchestration.filter"
                             />
                 </div>
 
@@ -107,6 +107,14 @@
 
                     <input type="text" class="form-control" name="name"
                            ng-model="outboundEndpoint.name" ng-required="true"
+                            />
+                </div>
+
+                <div class="form-group">
+                    <label>Routing Condition:</label>
+
+                    <input type="text" class="form-control" name="condition"
+                           ng-model="outboundEndpoint.condition"
                             />
                 </div>
 
@@ -177,6 +185,14 @@
 
                     <input type="text" class="form-control" name="name"
                            ng-model="outboundEndpoint.name" ng-required="true"
+                            />
+                </div>
+
+                <div class="form-group">
+                    <label>Routing Condition:</label>
+
+                    <input type="text" class="form-control" name="condition"
+                           ng-model="outboundEndpoint.condition"
                             />
                 </div>
 
@@ -317,6 +333,10 @@
                     <tr>
                         <th>Type:</th>
                         <td>{{outboundEndpoint.type}}</td>
+                    </tr>
+                    <tr>
+                        <th>Routing Condition:</th>
+                        <td>{{outboundEndpoint.condition}}</td>
                     </tr>
                     <tr>
                         <th>Variable Name:</th>

@@ -31,8 +31,11 @@ public class OutboundEndpoint extends AuditedEntity {
     @JsonIgnore  // since type is added by JsonTypeInfo
     private EndpointType type;
 
+    @Column(name = "condition", length = 2048)
+    private String condition;
+
     @NotNull
-    @Column(name = "variable_name")
+    @Column(name = "variable_name", length = 255)
     private String variableName;
 
     @Column(name = "script", length = 32_000)
@@ -63,6 +66,14 @@ public class OutboundEndpoint extends AuditedEntity {
 
     public void setType(EndpointType type) {
         this.type = type;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
     }
 
     public String getVariableName() {

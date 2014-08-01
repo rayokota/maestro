@@ -19,11 +19,11 @@ public class RdbmsOutboundEndpoint extends OutboundEndpoint {
     }
 
     @NotNull
-    @Column(name = "url")
+    @Column(name = "url", length = 255)
     private String url;
 
     @NotNull
-    @Column(name = "driverClassName")
+    @Column(name = "driverClassName", length = 255)
     private String driverClassName;
 
     @NotNull

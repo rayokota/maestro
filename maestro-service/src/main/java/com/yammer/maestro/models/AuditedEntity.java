@@ -14,7 +14,7 @@ public abstract class AuditedEntity {
     private long id;
 
     @NotNull
-    @Column(name = "name")
+    @Column(name = "name", length = 255)
     private String name;
 
     @Column(name = "created")

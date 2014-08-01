@@ -17,7 +17,7 @@ public class HttpOutboundEndpoint extends OutboundEndpoint {
     }
 
     @NotNull
-    @Column(name = "host")
+    @Column(name = "host", length = 255)
     private String host = "localhost";
 
     @Column(name = "port")
@@ -28,7 +28,7 @@ public class HttpOutboundEndpoint extends OutboundEndpoint {
     private String path;
 
     @NotNull
-    @Column(name = "content_type")
+    @Column(name = "content_type", length = 255)
     private String contentType = MediaType.APPLICATION_JSON;
 
     @NotNull

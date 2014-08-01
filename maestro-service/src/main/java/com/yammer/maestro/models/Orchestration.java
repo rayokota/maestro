@@ -45,7 +45,7 @@ public class Orchestration extends AuditedEntity {
     private String filter;
 
     @NotNull
-    @Column(name = "content_type")
+    @Column(name = "content_type", length = 255)
     private String contentType = MediaType.APPLICATION_JSON;
 
     @NotNull
