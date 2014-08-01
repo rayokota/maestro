@@ -17,14 +17,16 @@ angular.module('maestro')
       };
 
       $scope.setProperties = function (outboundEndpoint) {
-        var props =  outboundEndpoint.outboundProperties.trim().split(/:?\s+/);
         outboundEndpoint.properties = {};
-        for (var i = 0; i < props.length; i++) {
-          if (i + 1 < props.length) {
-            outboundEndpoint.properties[props[i]] = props[++i];
+        if (outboundEndpoint.outboundProperties !== undefined) {
+          var props = outboundEndpoint.outboundProperties.trim().split(/:?\s+/);
+          for (var i = 0; i < props.length; i++) {
+            if (i + 1 < props.length) {
+              outboundEndpoint.properties[props[i]] = props[++i];
+            }
           }
+          delete outboundEndpoint.outboundProperties;
         }
-        delete outboundEndpoint.outboundProperties;
       };
 
       $scope.setOutboundEndpoint = function (outboundEndpoint) {
@@ -138,6 +140,7 @@ angular.module('maestro')
           "keepAlive": false,
           "script": "",
           "scriptType": "JavaScript",
+          "parallel": true,
           "logLevel": "ERROR"
         };
       };
@@ -147,7 +150,6 @@ angular.module('maestro')
           "name": "",
           "type": "HTTP",
           "variableName": "",
-          "outboundProperties": "",
           "properties": {},
           "script": "",
           "scriptType": "JavaScript"

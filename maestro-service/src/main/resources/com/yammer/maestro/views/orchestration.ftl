@@ -40,6 +40,11 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
             <expression-filter expression="#[${orchestration.filter?xml!"true"}]"/>
         </message-filter>
 
+        <#if orchestration.parallel>
+        <scatter-gather>
+            <custom-aggregation-strategy class="com.yammer.maestro.engine.CollectVariablesAggregationStrategy"/>
+        </#if>
+
         <#list orchestration.outboundEndpoints as endpoint>
         <choice doc:name="Choice">
             <when expression="#[${endpoint.condition?xml!"true"}]">
@@ -66,6 +71,7 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
                     ]]></db:parameterized-query>
                 </db:select>
                 </#if>
+                <set-variable variableName="_variableName" value="${endpoint.variableName?xml}" doc:name="Variable"/>
                 <set-variable variableName="${endpoint.variableName?xml}" value="#[message.payload]" doc:name="Variable"/>
             </when>
             <otherwise>
@@ -73,6 +79,10 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
             </otherwise>
         </choice>
         </#list>
+
+        <#if orchestration.parallel>
+        </scatter-gather>
+        </#if>
 
         <set-payload value="#[_inboundPayload]" />
         <scripting:transformer doc:name="Script">

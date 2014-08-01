@@ -69,6 +69,10 @@ public class Orchestration extends AuditedEntity {
     private ScriptType scriptType = ScriptType.JavaScript;
 
     @NotNull
+    @Column(name = "parallel")
+    private boolean parallel = true;
+
+    @NotNull
     @Column(name = "log_level")
     @Enumerated(EnumType.STRING)
     private LogLevel logLevel = LogLevel.ERROR;
@@ -174,6 +178,14 @@ public class Orchestration extends AuditedEntity {
 
     public void setScriptType(ScriptType scriptType) {
         this.scriptType = scriptType;
+    }
+
+    public boolean isParallel() {
+        return parallel;
+    }
+
+    public void setParallel(boolean parallel) {
+        this.parallel = parallel;
     }
 
     public LogLevel getLogLevel() {
