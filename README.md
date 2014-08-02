@@ -2,7 +2,7 @@
 
 A Dropwizard service for running orchestrations.
 
-Maestro wraps the [Mule ESB](http://www.mulesoft.org/) to automate API integration with external applications.
+Maestro wraps the [Mule ESB](http://www.mulesoft.org/) to automate integration with external applications.
 
 ## Running Maestro
 
@@ -33,6 +33,12 @@ An orchestration has the following properties:
 
 - **Log level**:  OFF, ERROR, or DEBUG.
 
+- **Response**:  A script to generate the HTTP response.  The final result should be a string.  Here is an example JavaScript script to generate the response, assuming that the result of one of the actions was saved in a variable named `order`.
+
+        var orderId = order.get("id");
+		var x = { id: orderId, name: "Fred" };
+		JSON.stringify(x);
+
 An action can be either an HTTP action or an RDBMS action.  Both types of action have the following properties:
 
 - **Name**: an arbitrary string.
@@ -53,14 +59,14 @@ The HTTP action has the following additional properties:
 
 - **Headers**:  A set of headers, specified on separate lines in the form `Cache-Control: no-cache`, for example.
 
-- **Payload**:  A script to generate the HTTP payload.  The final result should be a string.  Here is an example Javascript script to generate the payload:
+- **Payload**:  A script to generate the HTTP request.  The final result should be a string.  Here is an example JavaScript script to generate the request:
 
-		var x = { id: 3, "name": "Smith" };
+		var x = { id: 3, name: "Fred" };
 		JSON.stringify(x);
 
 The RDBMS action has the following additional properties:
 
-- **JDBC URL**:  The JDBC URL, such as `jdbc:postgresql://localhost:5432/maestro?user=fred&password=secret`.
+- **JDBC URL**:  The JDBC URL, such as `jdbc:postgresql://localhost:5432/mydb?user=fred&password=secret`.
 
 - **Driver class**:  The JDBC driver class name, such as `org.postgresql.Driver`.
 
@@ -91,5 +97,7 @@ Maestro has the following features.
 
 - **Automatic versioning**:  Every change to an orchestration results in a new revision which is persisted.  Revisions for an orchestration can be obtained via the REST endpoints
 
-		/maestro/orchestrations/{id}/revisionIds		/maestro/orchestrations/{id}/revision/{revisionId}
+		/maestro/orchestrations/{id}/revisionIds
+		
+		/maestro/orchestrations/{id}/revision/{revisionId}
 
