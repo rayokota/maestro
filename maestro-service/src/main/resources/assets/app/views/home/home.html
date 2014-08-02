@@ -73,17 +73,17 @@ JSON.stringify(x);
             <p>Maestro has the following features.</p>
 
             <ul class="task-list">
-                <li><p><strong>Browser-based development</strong>:  Both development and deployment of orchestrations is performed entirely in the browser.</p></li>
+                <li><p><strong>Browser-based lifecycle management</strong>:  Development, deployment, and monitoring of orchestrations is performed entirely in the browser.</p></li>
                 <li><p><strong>Hot deployment</strong>:  Orchestrations can be deployed without restarting Maestro or affecting other orchestrations.</p></li>
                 <li><p><strong>Cluster support</strong>:  A set of Maestro nodes can form a cluster.  Starting or stopping an orchestration in one node will cause it to be started or stopped in all other nodes in the cluster.</p></li>
                 <li><p><strong>Request validation</strong>:  A validation filter allows requests to be properly validated before any actions are performed.</p></li>
                 <li><p><strong>Conditional routing</strong>:  A routing condition allows actions to be conditionally performed.</p></li>
-                <li><p><strong>Choice of sequential or parallel execution of actions</strong>:  Actions can be performed in parallel, otherwise if the input to one action depends on the output of another, actions can be performed in sequence.</p></li>
+                <li><p><strong>Choice of sequential or parallel execution of actions</strong>:  Actions can be performed in parallel; otherwise if the input to one action depends on the output of another, actions can be performed in sequence.</p></li>
                 <li><p><strong>Support for multiple action types</strong>:  Both HTTP and RDBMS actions are supported.  Other action types might be added at a later time.</p></li>
                 <li><p><strong>Support for multiple scripting languages</strong>:  Scripts can be written in Groovy, JavaScript, Python, or Ruby.</p></li>
                 <li><p><strong>Log aggregation</strong>:  Logs are aggregated and made visible via the browser.</p></li>
                 <li>
-                    <p><strong>Automatic versioning</strong>:  Every change to an orchestration results in a new revision which is persisted.  Revisions for an orchestration can be obtained via the REST endpoints</p>
+                    <p><strong>Automatic versioning</strong>:  Every change to an orchestration results in a new revision which is persisted.  Revisions for an orchestration can be obtained via the following REST endpoints:</p>
 
 <pre><code>/maestro/orchestrations/{id}/revisionIds
 

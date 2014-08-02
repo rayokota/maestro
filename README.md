@@ -77,7 +77,7 @@ The RDBMS action has the following additional properties:
 
 Maestro has the following features.
 
-- **Browser-based development**:  Both development and deployment of orchestrations is performed entirely in the browser.
+- **Browser-based lifecycle management**:  Development, deployment, and monitoring of orchestrations is performed entirely in the browser.
 
 - **Hot deployment**:  Orchestrations can be deployed without restarting Maestro or affecting other orchestrations.
 
@@ -87,7 +87,7 @@ Maestro has the following features.
 
 - **Conditional routing**:  A routing condition allows actions to be conditionally performed.
 
-- **Choice of sequential or parallel execution of actions**:  Actions can be performed in parallel, otherwise if the input to one action depends on the output of another, actions can be performed in sequence.
+- **Choice of sequential or parallel execution of actions**:  Actions can be performed in parallel; otherwise if the input to one action depends on the output of another, actions can be performed in sequence.
 
 - **Support for multiple action types**:  Both HTTP and RDBMS actions are supported.  Other action types might be added at a later time.
 
@@ -95,7 +95,7 @@ Maestro has the following features.
 
 - **Log aggregation**:  Logs are aggregated and made visible via the browser.
 
-- **Automatic versioning**:  Every change to an orchestration results in a new revision which is persisted.  Revisions for an orchestration can be obtained via the REST endpoints
+- **Automatic versioning**:  Every change to an orchestration results in a new revision which is persisted.  Revisions for an orchestration can be obtained via the following REST endpoints:
 
 		/maestro/orchestrations/{id}/revisionIds
 		
