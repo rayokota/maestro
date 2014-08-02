@@ -21,7 +21,7 @@ An orchestration has the following properties:
 
 - **Name**: an arbitrary string.
 
-- **Context path**:  a unique prefix to select this orchestration when a request is received.  The actual URL will be of the form `http://locahost:8080/api/{contextPath}/{relativePath}`.
+- **Context path**:  a unique prefix to select this orchestration when a request is received.  The actual URL will be of the form `http://localhost:8080/api/{contextPath}/{relativePath}`.
 
 - **Relative path template**: A URI template specifying the relative path that follows the context path.  When a request is received, any path parameters in the URI template will be made available as variables.  For example, with a template of `users/{userId}` and a request with a relative path of `users/3`, the variable `userId` would be set to the value `3`.
 

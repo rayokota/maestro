@@ -26,7 +26,7 @@
 
             <ul class="task-list">
                 <li><p><strong>Name</strong>: an arbitrary string.</p></li>
-                <li><p><strong>Context path</strong>:  a unique prefix to select this orchestration when a request is received.  The actual URL will be of the form <code>http://locahost:8080/api/{contextPath}/{relativePath}</code>.</p></li>
+                <li><p><strong>Context path</strong>:  a unique prefix to select this orchestration when a request is received.  The actual URL will be of the form <code>http://localhost:8080/api/{contextPath}/{relativePath}</code>.</p></li>
                 <li><p><strong>Relative path template</strong>: A URI template specifying the relative path that follows the context path.  When a request is received, any path parameters in the URI template will be made available as variables.  For example, with a template of <code>users/{userId}</code> and a request with a relative path of <code>users/3</code>, the variable <code>userId</code> would be set to the value <code>3</code>.</p></li>
                 <li><p><strong>Validation filter</strong>:  A <a href="http://www.mulesoft.org/documentation/display/current/Mule+Expression+Language+MEL">Mule expression</a> to validate requests, such as <code>userId &gt; 0</code>.  If the validation fails, a 422 (unprocessable entity) is returned.</p></li>
                 <li><p><strong>Method</strong>:  The HTTP method.</p></li>
