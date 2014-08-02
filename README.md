@@ -89,7 +89,7 @@ Maestro has the following features.
 
 - **Choice of sequential or parallel execution of actions**:  Actions can be performed in parallel, otherwise if the input to one action depends on the output of another, actions can be performed in sequence.
 
-- **Support for multiple action types**:  Both HTTP and RDBMS actions are supported.  Other types of actions might be added at a later time.
+- **Support for multiple action types**:  Both HTTP and RDBMS actions are supported.  Other action types might be added at a later time.
 
 - **Support for multiple scripting languages**:  Scripts can be written in Groovy, JavaScript, Python, or Ruby.
 
