@@ -2,11 +2,96 @@
     <div class="row">
         <div class="col-md-8">
             <h1>Welcome to Maestro!</h1>
-            <p class="lead">This is your homepage, ready for editing</p>
 
-            <p>
-             <span translate="main.like">If you like this Angular-Dropwizard generator, please give us a star at </span>&nbsp;<a href="https://github.com/rayokota/generator-angular-dropwizard" target="_blank" translate="main.github">Github</a>!
-            </p>
+            <p>A Dropwizard service for running orchestrations.</p>
+
+            <p>Maestro wraps the <a href="http://www.mulesoft.org/">Mule ESB</a> to automate integration with external applications.</p>
+
+            <h2>
+                <a name="user-content-running-maestro" class="anchor" href="#running-maestro" aria-hidden="true"><span class="octicon octicon-link"></span></a>Running Maestro</h2>
+
+            <p>Maestro was created with the <a href="https://github.com/rayokota/generator-angular-dropwizard">Angular-Dropwizard generator</a>.</p>
+
+            <p>To compile and run the service:</p>
+
+<pre><code>mvn compile exec:exec -pl maestro-service
+</code></pre>
+
+            <h2>
+                <a name="user-content-overview" class="anchor" href="#overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h2>
+
+            <p>The main components in Maestro are orchestrations and their constituent actions.  An orchestration is exposed as a REST endpoint that calls the constituent actions and aggregates the results of those actions into an HTTP response.</p>
+
+            <p>An orchestration has the following properties:</p>
+
+            <ul class="task-list">
+                <li><p><strong>Name</strong>: an arbitrary string.</p></li>
+                <li><p><strong>Context path</strong>:  a unique prefix to select this orchestration when a request is received.  The actual URL will be of the form <code>http://locahost:8080/api/{contextPath}/{relativePath}</code>.</p></li>
+                <li><p><strong>Relative path template</strong>: A URI template specifying the relative path that follows the context path.  When a request is received, any path parameters in the URI template will be made available as variables.  For example, with a template of <code>users/{userId}</code> and a request with a relative path of <code>users/3</code>, the variable <code>userId</code> would be set to the value <code>3</code>.</p></li>
+                <li><p><strong>Validation filter</strong>:  A <a href="http://www.mulesoft.org/documentation/display/current/Mule+Expression+Language+MEL">Mule expression</a> to validate requests, such as <code>userId &gt; 0</code>.  If the validation fails, a 422 (unprocessable entity) is returned.</p></li>
+                <li><p><strong>Method</strong>:  The HTTP method.</p></li>
+                <li><p><strong>Whether to run actions in parallel</strong>:  Actions can be run in sequence or in parallel.</p></li>
+                <li><p><strong>Log level</strong>:  OFF, ERROR, or DEBUG.</p></li>
+                <li>
+                    <p><strong>Response</strong>:  A script to generate the HTTP response.  The final result should be a string.  Here is an example JavaScript script to generate the response, assuming that the result of one of the actions was saved in a variable named <code>order</code>.</p>
+
+<pre><code>var orderId = order.get("id");
+    var x = { id: orderId, name: "Fred" };
+    JSON.stringify(x);
+</code></pre>
+                </li>
+            </ul><p>An action can be either an HTTP action or an RDBMS action.  Both types of action have the following properties:</p>
+
+            <ul class="task-list">
+                <li><p><strong>Name</strong>: an arbitrary string.</p></li>
+                <li><p><strong>Routing condition</strong>:  A <a href="http://www.mulesoft.org/documentation/display/current/Mule+Expression+Language+MEL">Mule expression</a> to determine if this action should be performed, such as <code>userId &gt; 100</code>.</p></li>
+                <li><p><strong>Variable name</strong>:  A variable to hold the result of the action.</p></li>
+            </ul><p>The HTTP action has the following additional properties:</p>
+
+            <ul class="task-list">
+                <li><p><strong>Host</strong>:  The host to which to submit the request.</p></li>
+                <li><p><strong>Port</strong>:  The port to which to submit the request.</p></li>
+                <li><p><strong>Path</strong>:  The path to which to submit the request.</p></li>
+                <li><p><strong>Method</strong>:  The HTTP method.</p></li>
+                <li><p><strong>Headers</strong>:  A set of headers, specified on separate lines in the form <code>Cache-Control: no-cache</code>, for example.</p></li>
+                <li>
+                    <p><strong>Payload</strong>:  A script to generate the HTTP request.  The final result should be a string.  Here is an example JavaScript script to generate the request:</p>
+
+<pre><code>var x = { id: 3, name: "Fred" };
+    JSON.stringify(x);
+</code></pre>
+                </li>
+            </ul><p>The RDBMS action has the following additional properties:</p>
+
+            <ul class="task-list">
+                <li><p><strong>JDBC URL</strong>:  The JDBC URL, such as <code>jdbc:postgresql://localhost:5432/mydb?user=fred&amp;password=secret</code>.</p></li>
+                <li><p><strong>Driver class</strong>:  The JDBC driver class name, such as <code>org.postgresql.Driver</code>.</p></li>
+                <li><p><strong>Query</strong>:  A SQL query, such as <code>select * from Users</code>.</p></li>
+            </ul><h2>
+            <a name="user-content-features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
+
+            <p>Maestro has the following features.</p>
+
+            <ul class="task-list">
+                <li><p><strong>Browser-based development</strong>:  Both development and deployment of orchestrations is performed entirely in the browser.</p></li>
+                <li><p><strong>Hot deployment</strong>:  Orchestrations can be deployed without restarting Maestro or affecting other orchestrations.</p></li>
+                <li><p><strong>Cluster support</strong>:  A set of Maestro nodes can form a cluster.  Starting or stopping an orchestration in one node will cause it to be started or stopped in all other nodes in the cluster.</p></li>
+                <li><p><strong>Request validation</strong>:  A validation filter allows requests to be properly validated before any actions are performed.</p></li>
+                <li><p><strong>Conditional routing</strong>:  A routing condition allows actions to be conditionally performed.</p></li>
+                <li><p><strong>Choice of sequential or parallel execution of actions</strong>:  Actions can be performed in parallel, otherwise if the input to one action depends on the output of another, actions can be performed in sequence.</p></li>
+                <li><p><strong>Support for multiple action types</strong>:  Both HTTP and RDBMS actions are supported.  Other action types might be added at a later time.</p></li>
+                <li><p><strong>Support for multiple scripting languages</strong>:  Scripts can be written in Groovy, JavaScript, Python, or Ruby.</p></li>
+                <li><p><strong>Log aggregation</strong>:  Logs are aggregated and made visible via the browser.</p></li>
+                <li>
+                    <p><strong>Automatic versioning</strong>:  Every change to an orchestration results in a new revision which is persisted.  Revisions for an orchestration can be obtained via the REST endpoints</p>
+
+<pre><code>/maestro/orchestrations/{id}/revisionIds
+
+/maestro/orchestrations/{id}/revision/{revisionId}
+</code></pre>
+                </li>
+            </ul>
+
         </div>
     </div>
 </div>
