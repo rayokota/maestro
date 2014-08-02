@@ -36,8 +36,8 @@
                     <p><strong>Response</strong>:  A script to generate the HTTP response.  The final result should be a string.  Here is an example JavaScript script to generate the response, assuming that the result of one of the actions was saved in a variable named <code>order</code>.</p>
 
 <pre><code>var orderId = order.get("id");
-    var x = { id: orderId, name: "Fred" };
-    JSON.stringify(x);
+var x = { id: orderId, name: "Fred" };
+JSON.stringify(x);
 </code></pre>
                 </li>
             </ul><p>An action can be either an HTTP action or an RDBMS action.  Both types of action have the following properties:</p>
@@ -58,7 +58,7 @@
                     <p><strong>Payload</strong>:  A script to generate the HTTP request.  The final result should be a string.  Here is an example JavaScript script to generate the request:</p>
 
 <pre><code>var x = { id: 3, name: "Fred" };
-    JSON.stringify(x);
+JSON.stringify(x);
 </code></pre>
                 </li>
             </ul><p>The RDBMS action has the following additional properties:</p>
