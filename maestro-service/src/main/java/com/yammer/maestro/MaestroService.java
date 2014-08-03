@@ -100,7 +100,7 @@ public class MaestroService extends Application<MaestroConfiguration> {
 
     private OrchestrationEngine buildEngine(MaestroConfiguration configuration, Environment environment,
                                             OrchestrationDAO orchestrationDAO, LogDAO logDAO, Cluster cluster) {
-        final OrchestrationEngine engine = new OrchestrationEngine(configuration, orchestrationDAO, logDAO, cluster);
+        final OrchestrationEngine engine = new OrchestrationEngine(configuration, orchestrationDAO, logDAO, cluster, environment.metrics());
         environment.lifecycle().manage(engine);
         return engine;
     }

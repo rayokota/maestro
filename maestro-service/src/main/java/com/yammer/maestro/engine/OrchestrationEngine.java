@@ -1,5 +1,6 @@
 package com.yammer.maestro.engine;
 
+import com.codahale.metrics.MetricRegistry;
 import com.google.common.base.Optional;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
@@ -36,16 +37,19 @@ public class OrchestrationEngine implements Managed {
     private final OrchestrationDAO orchestrationDAO;
     private final LogDAO logDAO;
     private final Cluster cluster;
+    private final MetricRegistry metrics;
     private final Map<String, MuleContext> contexts = Maps.newConcurrentMap();
 
     public OrchestrationEngine(MaestroConfiguration configuration,
                                OrchestrationDAO orchestrationDAO,
                                LogDAO logDAO,
-                               Cluster cluster) {
+                               Cluster cluster,
+                               MetricRegistry metrics) {
         this.configuration = configuration;
         this.orchestrationDAO = orchestrationDAO;
         this.logDAO = logDAO;
         this.cluster = cluster;
+        this.metrics = metrics;
     }
 
     public MaestroConfiguration getConfiguration() {
@@ -62,6 +66,10 @@ public class OrchestrationEngine implements Managed {
 
     public Cluster getCluster() {
         return cluster;
+    }
+
+    public MetricRegistry getMetrics() {
+        return metrics;
     }
 
     @Override
