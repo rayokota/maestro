@@ -95,6 +95,8 @@ Maestro has the following features.
 
 - **Log aggregation**:  Logs are aggregated and made visible via the browser.
 
+- **Automatic instrumention**:  Metrics are automatically gathered for all orchestrations.
+
 - **Automatic versioning**:  Every change to an orchestration results in a new revision which is persisted.  Revisions for an orchestration can be obtained via the following REST endpoints:
 
 		/maestro/orchestrations/{id}/revisionIds
