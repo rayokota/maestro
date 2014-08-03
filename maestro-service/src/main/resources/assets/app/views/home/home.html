@@ -8,16 +8,6 @@
             <p>Maestro wraps the <a href="http://www.mulesoft.org/">Mule ESB</a> to automate integration with external applications.</p>
 
             <h2>
-                <a name="user-content-running-maestro" class="anchor" href="#running-maestro" aria-hidden="true"><span class="octicon octicon-link"></span></a>Running Maestro</h2>
-
-            <p>Maestro was created with the <a href="https://github.com/rayokota/generator-angular-dropwizard">Angular-Dropwizard generator</a>.</p>
-
-            <p>To compile and run the service:</p>
-
-<pre><code>mvn compile exec:exec -pl maestro-service
-</code></pre>
-
-            <h2>
                 <a name="user-content-overview" class="anchor" href="#overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h2>
 
             <p>The main components in Maestro are orchestrations and their constituent actions.  An orchestration is exposed as a REST endpoint that calls the constituent actions and aggregates the results of those actions into an HTTP response.</p>
@@ -33,7 +23,7 @@
                 <li><p><strong>Whether to run actions in parallel</strong>:  Actions can be run in sequence or in parallel.</p></li>
                 <li><p><strong>Log level</strong>:  OFF, ERROR, or DEBUG.</p></li>
                 <li>
-                    <p><strong>Response</strong>:  A script to generate the HTTP response.  The final result should be a string.  Here is an example JavaScript script to generate the response, assuming that the result of one of the actions was saved in a variable named <code>order</code>.</p>
+                    <p><strong>Response</strong>:  A script to generate the HTTP response.  The final result should be a string.  The request payload is available in the <code>payload</code> variable.  Query parameters are available in the <code>queryParams</code> map variable.  Here is an example JavaScript script to generate the response, assuming that the result of one of the actions was saved in a variable named <code>order</code>.</p>
 
 <pre><code>var orderId = order.get("id");
 var x = { id: orderId, name: "Fred" };
@@ -73,7 +63,7 @@ JSON.stringify(x);
             <p>Maestro has the following features.</p>
 
             <ul class="task-list">
-                <li><p><strong>Browser-based lifecycle management</strong>:  Development, deployment, and monitoring of orchestrations is performed entirely in the browser.</p></li>
+                <li><p><strong>Browser-based lifecycle management</strong>:  Development, deployment, and monitoring of orchestrations are performed entirely in the browser.</p></li>
                 <li><p><strong>Hot deployment</strong>:  Orchestrations can be deployed without restarting Maestro or affecting other orchestrations.</p></li>
                 <li><p><strong>Cluster support</strong>:  A set of Maestro nodes can form a cluster.  Starting or stopping an orchestration in one node will cause it to be started or stopped in all other nodes in the cluster.</p></li>
                 <li><p><strong>Request validation</strong>:  A validation filter allows requests to be properly validated before any actions are performed.</p></li>
@@ -83,7 +73,8 @@ JSON.stringify(x);
                 <li><p><strong>Support for multiple scripting languages</strong>:  Scripts can be written in Groovy, JavaScript, Python, or Ruby.</p></li>
                 <li><p><strong>Log aggregation</strong>:  Logs are aggregated and made visible via the browser.</p></li>
                 <li><p><strong>Automatic instrumention</strong>:  Metrics are automatically gathered for all orchestrations.</p></li>
-                <li><p><strong>Automatic versioning</strong>:  Every change to an orchestration results in a new revision which is persisted.  Revisions for an orchestration can be obtained via the following REST endpoints:</p>
+                <li>
+                    <p><strong>Automatic versioning</strong>:  Every change to an orchestration results in a new revision which is persisted.  Revisions for an orchestration can be obtained via the following REST endpoints:</p>
 
 <pre><code>/maestro/orchestrations/{id}/revisionIds
 
