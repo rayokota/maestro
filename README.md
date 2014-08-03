@@ -33,7 +33,7 @@ An orchestration has the following properties:
 
 - **Log level**:  OFF, ERROR, or DEBUG.
 
-- **Response**:  A script to generate the HTTP response.  The final result should be a string.  Here is an example JavaScript script to generate the response, assuming that the result of one of the actions was saved in a variable named `order`.
+- **Response**:  A script to generate the HTTP response.  The final result should be a string.  The request payload is available in the `payload` variable.  Query parameters are available in the `queryParams` map variable.  Here is an example JavaScript script to generate the response, assuming that the result of one of the actions was saved in a variable named `order`.
 
         var orderId = order.get("id");
 		var x = { id: orderId, name: "Fred" };
@@ -77,7 +77,7 @@ The RDBMS action has the following additional properties:
 
 Maestro has the following features.
 
-- **Browser-based lifecycle management**:  Development, deployment, and monitoring of orchestrations is performed entirely in the browser.
+- **Browser-based lifecycle management**:  Development, deployment, and monitoring of orchestrations are performed entirely in the browser.
 
 - **Hot deployment**:  Orchestrations can be deployed without restarting Maestro or affecting other orchestrations.
 
