@@ -40,7 +40,7 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
             <expression-filter expression="#[${(orchestration.filter!"true")?xml}]"/>
         </message-filter>
 
-        <#if orchestration.parallel>
+        <#if orchestration.parallel && orchestration.outboundEndpoints?size &gt; 1>
         <scatter-gather>
             <custom-aggregation-strategy class="com.yammer.maestro.engine.CollectVariablesAggregationStrategy"/>
         </#if>
@@ -80,16 +80,18 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
         </choice>
         </#list>
 
-        <#if orchestration.parallel>
+        <#if orchestration.parallel && orchestration.outboundEndpoints?size &gt; 1>
         </scatter-gather>
         </#if>
 
         <set-payload value="#[_inboundPayload]" />
+        <#if orchestration.script?trim?length &gt; 0>
         <scripting:transformer doc:name="Script">
             <scripting:script engine="${orchestration.scriptType?xml}"><![CDATA[
                 ${orchestration.script}
             ]]></scripting:script>
         </scripting:transformer>
+        </#if>
 
         <set-property propertyName="http.status" value="200"/>
 

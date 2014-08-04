@@ -296,7 +296,8 @@
                     </accordion-heading>
                     <span class="glyphicon glyphicon-play icon-start pull-right" ng-show="orch.state != 'Started'" ng-click="deploy(orch)"></span>
                     <span class="glyphicon glyphicon-stop icon-stop pull-right" ng-show="orch.state == 'Started'" ng-click="deploy(orch)"></span>
-                    <button class="btn btn-default btn-sm" ng-click="createOutboundEndpoint(orch)">Add Action</button>
+                    <button class="btn btn-default btn-sm" ng-click="createOutboundEndpoint(orch)"
+                            ng-disabled="orch.state == 'Started'">Add Action</button>
                     <ul class="list-unstyled">
                     <li>Actions ({{orchestration.parallel ? 'Parallel' : 'Serial'}})<span class="pull-right">Variables</span></li>
                     <ul>
