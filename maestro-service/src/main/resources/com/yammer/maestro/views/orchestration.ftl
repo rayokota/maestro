@@ -37,7 +37,7 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
         </custom-transformer>
 
         <message-filter doc:name="Message" throwOnUnaccepted="true">
-            <expression-filter expression="#[${(orchestration.filter!"true")?xml}]"/>
+            <expression-filter expression="#[${(orchestration.derivedFilter!"true")?xml}]"/>
         </message-filter>
 
         <#if orchestration.parallel && orchestration.outboundEndpoints?size &gt; 1>
@@ -47,7 +47,7 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
 
         <#list orchestration.outboundEndpoints as endpoint>
         <choice doc:name="Choice">
-            <when expression="#[${(endpoint.condition!"true")?xml}]">
+            <when expression="#[${(endpoint.derivedCondition!"true")?xml}]">
 
                 <set-variable variableName="_variableName" value="${endpoint.variableName?xml}" doc:name="Variable"/>
 
@@ -119,8 +119,8 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
 
         <choice-exception-strategy>
             <catch-exception-strategy when="#[exception.causedBy(org.mule.api.routing.filter.FilterUnacceptedException)]">
-                <logger message="The request cannot be processed, failed the filter: ${orchestration.filter}" level="ERROR"/>
-                <set-payload value="The request cannot be processed, failed the filter: ${orchestration.filter}."/>
+                <logger message="The request cannot be processed, failed the filter: ${orchestration.derivedFilter}" level="ERROR"/>
+                <set-payload value="The request cannot be processed, failed the filter: ${orchestration.derivedFilter}."/>
                 <set-property propertyName="http.status" value="422"/>
 
                 <custom-transformer class="com.yammer.maestro.engine.LifecycleTransformer">

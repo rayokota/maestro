@@ -154,4 +154,10 @@ public class OutboundEndpoint extends AuditedEntity {
     public void setOrchestrationId(long orchestrationId) {
         this.orchestrationId = orchestrationId;
     }
+
+    @Transient
+    @JsonIgnore
+    public String getDerivedCondition() {
+        return getCondition() == null || getCondition().trim().length() == 0 ? "true" : getCondition();
+    }
 }

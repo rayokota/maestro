@@ -45,6 +45,10 @@ An action can be either an HTTP action or an RDBMS action.  Both types of action
 
 - **Routing condition**:  A [Mule expression](http://www.mulesoft.org/documentation/display/current/Mule+Expression+Language+MEL) to determine if this action should be performed, such as `userId > 100`.
 
+- **For-each variable name**:  A variable to hold the value of the for-each expression.
+
+- **For-each expression**: An expression representing a collection of values over which to iterate when calling the action in a loop. 
+
 - **Output variable name**:  A variable to hold the result of the action.
 
 The HTTP action has the following additional properties:

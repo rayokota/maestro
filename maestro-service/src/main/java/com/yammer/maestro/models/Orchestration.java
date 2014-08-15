@@ -218,4 +218,10 @@ public class Orchestration extends AuditedEntity {
     public int getDerivedPort() {
         return getPort() == 0 ? (int)getId() : getPort();
     }
+
+    @Transient
+    @JsonIgnore
+    public String getDerivedFilter() {
+        return getFilter() == null || getFilter().trim().length() == 0 ? "true" : getFilter();
+    }
 }
