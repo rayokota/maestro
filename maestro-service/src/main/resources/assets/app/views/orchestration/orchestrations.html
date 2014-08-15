@@ -124,7 +124,23 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Variable Name:</label>
+                        <label>Foreach Variable Name:</label>
+
+                        <input type="text" class="form-control" name="variableName"
+                               ng-model="outboundEndpoint.foreachVariableName"
+                                />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Foreach Expression:</label>
+
+                        <input type="text" class="form-control" name="variableName"
+                               ng-model="outboundEndpoint.foreachExpression"
+                                />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Output Variable Name:</label>
 
                         <input type="text" class="form-control" name="variableName"
                                ng-model="outboundEndpoint.variableName" ng-required="true"
@@ -202,7 +218,23 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Variable Name:</label>
+                        <label>Foreach Variable Name:</label>
+
+                        <input type="text" class="form-control" name="variableName"
+                               ng-model="outboundEndpoint.foreachVariableName"
+                                />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Foreach Expression:</label>
+
+                        <input type="text" class="form-control" name="variableName"
+                               ng-model="outboundEndpoint.foreachExpression"
+                                />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Output Variable Name:</label>
 
                         <input type="text" class="form-control" name="variableName"
                                ng-model="outboundEndpoint.variableName" ng-required="true"
@@ -397,7 +429,15 @@
                         <td>{{outboundEndpoint.condition}}</td>
                     </tr>
                     <tr>
-                        <th>Variable Name:</th>
+                        <th>Foreach Variable Name:</th>
+                        <td>{{outboundEndpoint.foreachVariableName}}</td>
+                    </tr>
+                    <tr>
+                        <th>Foreach Expression:</th>
+                        <td>{{outboundEndpoint.foreachExpression}}</td>
+                    </tr>
+                    <tr>
+                        <th>Output Variable Name:</th>
                         <td>{{outboundEndpoint.variableName}}</td>
                     </tr>
                     <tr ng-show="outboundEndpoint.type == 'HTTP'">

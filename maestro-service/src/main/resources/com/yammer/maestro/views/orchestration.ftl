@@ -48,6 +48,15 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
         <#list orchestration.outboundEndpoints as endpoint>
         <choice doc:name="Choice">
             <when expression="#[${(endpoint.condition!"true")?xml}]">
+
+                <set-variable variableName="_variableName" value="${endpoint.variableName?xml}" doc:name="Variable"/>
+
+                <#if (endpoint.foreachVariableName!"")?trim?length &gt; 0>
+                <set-variable variableName="${endpoint.variableName?xml}" value="#[[]]" doc:name="Variable"/>
+                <foreach collection="#[${endpoint.foreachExpression?xml}]" counterVariableName="_counter">
+                <set-variable variableName="${endpoint.foreachVariableName?xml}" value="#[message.payload]" doc:name="Variable"/>
+                </#if>
+
                 <#if endpoint.type == "HTTP">
                 <#if endpoint.script?trim?length &gt; 0>
                 <scripting:transformer doc:name="Script">
@@ -71,8 +80,16 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
                     ]]></db:parameterized-query>
                 </db:select>
                 </#if>
-                <set-variable variableName="_variableName" value="${endpoint.variableName?xml}" doc:name="Variable"/>
+
+                <#if (endpoint.foreachVariableName!"")?trim?length &gt; 0>
+                <logger message="Finished foreach ${endpoint.name}, counter #[_counter]" level="DEBUG" doc:name="Logger"/>
+                <expression-component doc:name="Expression"><![CDATA[${endpoint.variableName}.add(message.payload)]]></expression-component>
+                </foreach>
+                <#else>
                 <set-variable variableName="${endpoint.variableName?xml}" value="#[message.payload]" doc:name="Variable"/>
+                </#if>
+
+                <logger message="Finished action ${endpoint.name}" level="DEBUG" doc:name="Logger"/>
             </when>
             <otherwise>
                 <logger message="Skipping action ${endpoint.name}" level="DEBUG" doc:name="Logger"/>

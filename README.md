@@ -45,7 +45,7 @@ An action can be either an HTTP action or an RDBMS action.  Both types of action
 
 - **Routing condition**:  A [Mule expression](http://www.mulesoft.org/documentation/display/current/Mule+Expression+Language+MEL) to determine if this action should be performed, such as `userId > 100`.
 
-- **Variable name**:  A variable to hold the result of the action.
+- **Output variable name**:  A variable to hold the result of the action.
 
 The HTTP action has the following additional properties:
 

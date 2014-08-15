@@ -72,6 +72,7 @@ logging:
   # Logger-specific levels.
   loggers:
     com.yammer.maestro: DEBUG
+    org.mule: DEBUG
     #org.hibernate.SQL: ALL
 
   appenders:

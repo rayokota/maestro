@@ -34,6 +34,12 @@ public class OutboundEndpoint extends AuditedEntity {
     @Column(name = "condition", length = 2048)
     private String condition;
 
+    @Column(name = "foreach_variable_name", length = 255)
+    private String foreachVariableName;
+
+    @Column(name = "foreach_expression", length = 2048)
+    private String foreachExpression;
+
     @NotNull
     @Column(name = "variable_name", length = 255)
     private String variableName;
@@ -74,6 +80,22 @@ public class OutboundEndpoint extends AuditedEntity {
 
     public void setCondition(String condition) {
         this.condition = condition;
+    }
+
+    public String getForeachVariableName() {
+        return foreachVariableName;
+    }
+
+    public void setForeachVariableName(String foreachVariableName) {
+        this.foreachVariableName = foreachVariableName;
+    }
+
+    public String getForeachExpression() {
+        return foreachExpression;
+    }
+
+    public void setForeachExpression(String foreachExpression) {
+        this.foreachExpression = foreachExpression;
     }
 
     public String getVariableName() {
